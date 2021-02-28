@@ -5,9 +5,10 @@ import { FormsModule } from "@angular/forms";
 import { AppComponent } from "./app.component";
 import { GridComponent } from "./grid/grid.component";
 import { MaterialModule } from "./material/material.module";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, MaterialModule],
+  imports: [BrowserModule, BrowserAnimationsModule, MaterialModule],
   declarations: [AppComponent, GridComponent],
   bootstrap: [AppComponent]
 })
