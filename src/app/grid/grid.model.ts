@@ -5,6 +5,7 @@ export interface Column {
   width?: number;
   isVisible?: boolean;
   isEditable?: boolean;
+  isSortable?: boolean;
 }
 
 export enum ColumnType {
