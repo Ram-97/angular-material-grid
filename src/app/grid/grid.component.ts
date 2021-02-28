@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 @Component({
   selector: "grid",
@@ -6,5 +6,8 @@ import { Component } from "@angular/core";
   styleUrls: ["./grid.component.css"]
 })
 export class GridComponent {
+  @Input() dataSource: any;
+  @Input() column: any;
+
   constructor() {}
 }
