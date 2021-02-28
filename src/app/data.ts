@@ -14,7 +14,7 @@ export const ELEMENT_DATA: any = [
 export const Column = [
   {
     name: "position",
-    title: "position"
+    title: "positio"
   },
   {
     name: "name",
