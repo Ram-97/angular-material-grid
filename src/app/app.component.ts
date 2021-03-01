@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
 import { dataList } from "./data";
-import { Column } from "./grid/grid.model";
+import { Column, TableConfig } from "./grid/grid.model";
 
 @Component({
   selector: "my-app",
@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
 
   dataSource: MatTableDataSource<any>;
   column: Array<Column>;
+  tableConfig: TableConfig;
 
   constructor() {}
 
@@ -24,11 +25,20 @@ export class AppComponent implements OnInit {
     this.selectedData = this.gridDataList[0];
     this.column = this.selectedData.column;
     this.dataSource = new MatTableDataSource(this.selectedData.dataSource);
-    console.log(this.gridDataList);
   }
 
   onSelectionChange(event: MatSelectChange) {
+    if (event.value.description === "InLine") {
+      this.tableConfig = {
+        inline: {
+          isDelete: true,
+          isEdit: true
+        }
+      };
+    }
+
     this.column = event.value.column;
     this.dataSource = new MatTableDataSource(event.value.dataSource);
+    delete this.tableConfig?.inline;
   }
 }

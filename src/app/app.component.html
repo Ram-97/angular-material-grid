@@ -1,10 +1,15 @@
-<p> Grid Example:</p>
+<p>Grid Example:</p>
 
 <mat-form-field appearance="fill">
-	<mat-label>Change Grid Data</mat-label>
-	<mat-select [(value)]="selectedData" (selectionChange)="onSelectionChange($event)">
-		<mat-option *ngFor="let data of gridDataList" [value]="data">{{data.description}}</mat-option>
-	</mat-select>
+  <mat-label>Change Grid Data</mat-label>
+  <mat-select
+    [(value)]="selectedData"
+    (selectionChange)="onSelectionChange($event)"
+  >
+    <mat-option *ngFor="let data of gridDataList" [value]="data"
+      >{{data.description}}</mat-option
+    >
+  </mat-select>
 </mat-form-field>
 
-<grid [dataSource]="dataSource" [column]="column"></grid>
+<grid [dataSource]="dataSource" [column]="column" [config]="tableConfig"></grid>

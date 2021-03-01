@@ -6,6 +6,7 @@ export interface Column {
   isVisible?: boolean;
   isEditable?: boolean;
   isSortable?: boolean;
+  isSticky?: boolean;
 }
 
 export enum ColumnType {
@@ -16,4 +17,14 @@ export enum ColumnType {
   DROPDOWN = "dropDown",
   AUTOCOMPLETE = "autoComplete",
   NUMBER = "number"
+}
+
+export interface Inline {
+  isEdit: boolean;
+  isDelete: boolean;
+  options?: any;
+}
+
+export interface TableConfig {
+  inline?: Inline;
 }

@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { Column } from "./grid.model";
+import { Column, TableConfig } from "./grid.model";
 
 @Component({
   selector: "grid",
@@ -12,10 +12,18 @@ export class GridComponent {
   @Input() set column(data: Array<Column>) {
     this.initColumnMetaData(data);
   }
+  @Input() set config(data: TableConfig) {
+    this.initTableConfig(data);
+  }
 
+  //Table
   columnMetaData: Array<Column>;
   displayedColumns: string[];
   hidden: boolean = false;
+
+  //Incell
+  isEdit: boolean = false;
+  isDelete: boolean = false;
 
   constructor() {}
 
@@ -30,5 +38,16 @@ export class GridComponent {
       []
     );
     this.hidden = false;
+  }
+
+  private initTableConfig(data: TableConfig) {
+    if (!(data && Object.keys(data).length)) {
+      return;
+    }
+
+    if (data.hasOwnProperty("inline")) {
+      this.isEdit = data.inline.isEdit;
+      this.isDelete = data.inline.isDelete;
+    }
   }
 }
