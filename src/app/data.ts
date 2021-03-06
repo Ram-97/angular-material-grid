@@ -1,3 +1,5 @@
+import { TableConfig } from "./grid/grid.model";
+
 export const ELEMENT_DATA: any = [
   { position: 1, name: "Hydrogen", weight: 1.0079, symbol: "H" },
   { position: 2, name: "Helium", weight: 4.0026, symbol: "He" },
@@ -62,6 +64,13 @@ export const Column1 = [
   }
 ];
 
+export const InlineConfig: TableConfig = {
+  inline: {
+    isDelete: true,
+    isEdit: true
+  }
+};
+
 export const dataList = [
   {
     description: "Normal",
@@ -69,6 +78,7 @@ export const dataList = [
     dataSource: ELEMENT_DATA
   },
   {
+    config: InlineConfig,
     description: "InLine",
     column: Column1,
     dataSource: ELEMENT_DATA1

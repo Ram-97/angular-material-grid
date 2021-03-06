@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+    console.log(this.gridDataList);
     this.selectedData = this.gridDataList[0];
     this.column = this.selectedData.column;
     this.dataSource = new MatTableDataSource(this.selectedData.dataSource);
@@ -29,16 +30,12 @@ export class AppComponent implements OnInit {
 
   onSelectionChange(event: MatSelectChange) {
     if (event.value.description === "InLine") {
-      this.tableConfig = {
-        inline: {
-          isDelete: true,
-          isEdit: true
-        }
-      };
+      this.tableConfig = event.value.config;
+    } else {
+      this.tableConfig = {};
     }
 
     this.column = event.value.column;
     this.dataSource = new MatTableDataSource(event.value.dataSource);
-    delete this.tableConfig?.inline;
   }
 }

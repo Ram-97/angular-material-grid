@@ -41,13 +41,18 @@ export class GridComponent {
   }
 
   private initTableConfig(data: TableConfig) {
-    if (!(data && Object.keys(data).length)) {
+    if (!data) {
+      return;
+    }
+
+    if (Object.keys(data).length === 0) {
       return;
     }
 
     if (data.hasOwnProperty("inline")) {
       this.isEdit = data.inline.isEdit;
       this.isDelete = data.inline.isDelete;
+      this.displayedColumns.push("Action");
     }
   }
 }
