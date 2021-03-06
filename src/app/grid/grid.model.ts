@@ -7,6 +7,7 @@ export interface Column {
   isEditable?: boolean;
   isSortable?: boolean;
   isSticky?: boolean;
+  separator?: boolean;
 }
 
 export enum ColumnType {

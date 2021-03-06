@@ -16,15 +16,19 @@ export const ELEMENT_DATA: any = [
 export const Column = [
   {
     name: "position",
-    title: "position"
+    title: "position",
+    separator: true,
+    width: 100
   },
   {
     name: "name",
-    title: "name"
+    title: "name",
+    separator: true
   },
   {
     name: "weight",
-    title: "weight"
+    title: "weight",
+    separator: true
   },
   {
     name: "symbol",
@@ -48,11 +52,13 @@ export const ELEMENT_DATA1: any = [
 export const Column1 = [
   {
     name: "position",
-    title: "position"
+    title: "position",
+    separator: true
   },
   {
     name: "name",
-    title: "name"
+    title: "name",
+    separator: true
   },
   {
     name: "weight",
@@ -60,7 +66,8 @@ export const Column1 = [
   },
   {
     name: "symbol",
-    title: "symbol"
+    title: "symbol",
+    separator: true
   }
 ];
 
