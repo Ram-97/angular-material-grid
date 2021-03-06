@@ -1,8 +1,9 @@
 <table mat-table [dataSource]="dataSource" [hidden]="dataSource.data.length === 0 || hidden" class="grid-container">
   <ng-container *ngFor="let column of columnMetaData" [matColumnDef]="column.name">
-    <th mat-header-cell *matHeaderCellDef [style.width.px]="column?.width">
+    <th mat-header-cell *matHeaderCellDef [style.width.px]="column?.width"
+      [ngStyle]="{position: column?.separator ? 'relative' : ''}">
       {{column.title | translate}}
-      <span *ngIf="column?.separator" class="separator"></span>
+      <span *ngIf="column?.separator" class="separator">&nbsp;</span>
     </th>
     <td mat-cell *matCellDef="let element; let rowIndex = index">
       <ng-container>
