@@ -6,6 +6,8 @@ export interface Column {
   isVisible?: boolean;
   isEditable?: boolean;
   isSortable?: boolean;
+  isSticky?: boolean;
+  separator?: boolean;
 }
 
 export enum ColumnType {
@@ -16,4 +18,24 @@ export enum ColumnType {
   DROPDOWN = "dropDown",
   AUTOCOMPLETE = "autoComplete",
   NUMBER = "number"
+}
+
+export interface Inline {
+  isEdit: boolean;
+  isDelete: boolean;
+  options?: {
+    before?: ExtraAction[];
+    inbetween?: ExtraAction[];
+    after?: ExtraAction[];
+  };
+}
+
+export interface ExtraAction {
+  iconName: string;
+  color?: string;
+  toolTip: string;
+}
+
+export interface TableConfig {
+  inline?: Inline;
 }
