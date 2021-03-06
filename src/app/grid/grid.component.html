@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="dataSource" [hidden]="dataSource.data.length === 0 || hidden">
+<table mat-table [dataSource]="dataSource" [hidden]="dataSource.data.length === 0 || hidden" class="grid-container">
   <ng-container *ngFor="let column of columnMetaData" [matColumnDef]="column.name">
     <th mat-header-cell *matHeaderCellDef>
       {{column.title | translate}}
@@ -14,7 +14,30 @@
     <th mat-header-cell *matHeaderCellDef>
       Action
     </th>
-    <td mat-cell *matCellDef="let element; let rowIndex = index"> 1 </td>
+    <td mat-cell *matCellDef="let element; let rowIndex = index">
+      <!--Before Action-->
+      <button mat-icon-button *ngFor="let action of beforeAction" (click)="actionClick(element)">
+        <mat-icon [style.color]="action?.color ? action.color : '#808080'" class="icon-medium" [matTooltip]="action.toolTip"> {{action.iconName}} </mat-icon>
+      </button>
+
+      <button mat-icon-button *ngIf="isEdit">
+        <mat-icon style="color:#808080;" class="icon-medium" matTooltip="Edit">edit</mat-icon>
+      </button>
+
+      <!--Middle Action-->
+      <button mat-icon-button *ngFor="let action of inbetweenAction" (click)="actionClick(element)">
+        <mat-icon [style.color]="action?.color ? action.color : '#808080'" class="icon-medium" [matTooltip]="action.toolTip"> {{action.iconName}} </mat-icon>
+      </button>
+
+      <button mat-icon-button *ngIf="isDelete">
+        <mat-icon style="color:#ff0000;" class="icon-medium" matTooltip="Delete">delete</mat-icon>
+      </button>
+
+      <!--After Action-->
+      <button mat-icon-button *ngFor="let action of afterAction" (click)="actionClick(element)">
+        <mat-icon [style.color]="action?.color ? action.color : '#808080'" class="icon-medium" [matTooltip]="action.toolTip"> {{action.iconName}} </mat-icon>
+      </button>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

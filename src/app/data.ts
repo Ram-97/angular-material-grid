@@ -67,7 +67,30 @@ export const Column1 = [
 export const InlineConfig: TableConfig = {
   inline: {
     isDelete: true,
-    isEdit: true
+    isEdit: true,
+    options: {
+      before: [
+        {
+          iconName: "snooze",
+          color: "blue",
+          toolTip: "snooze"
+        }
+      ],
+      inbetween: [
+        {
+          iconName: "snooze",
+          color: "blue",
+          toolTip: "snooze"
+        }
+      ],
+      after: [
+        {
+          iconName: "snooze",
+          color: "blue",
+          toolTip: "snooze"
+        }
+      ]
+    }
   }
 };
 

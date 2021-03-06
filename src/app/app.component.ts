@@ -22,7 +22,6 @@ export class AppComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.gridDataList);
     this.selectedData = this.gridDataList[0];
     this.column = this.selectedData.column;
     this.dataSource = new MatTableDataSource(this.selectedData.dataSource);
@@ -37,5 +36,9 @@ export class AppComponent implements OnInit {
 
     this.column = event.value.column;
     this.dataSource = new MatTableDataSource(event.value.dataSource);
+  }
+
+  customAction(data: any) {
+    console.log(data);
   }
 }

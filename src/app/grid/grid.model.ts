@@ -22,7 +22,17 @@ export enum ColumnType {
 export interface Inline {
   isEdit: boolean;
   isDelete: boolean;
-  options?: any;
+  options?: {
+    before?: ExtraAction[];
+    inbetween?: ExtraAction[];
+    after?: ExtraAction[];
+  };
+}
+
+export interface ExtraAction {
+  iconName: string;
+  color?: string;
+  toolTip: string;
 }
 
 export interface TableConfig {

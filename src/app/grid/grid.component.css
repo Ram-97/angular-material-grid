@@ -1,0 +1,8 @@
+.grid-container .icon-medium {
+  font-size: medium;
+}
+
+.grid-container .mat-header-cell,
+.mat-cell {
+  text-align: center;
+}

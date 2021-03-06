@@ -1,6 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { Column, TableConfig } from "./grid.model";
+import { Column, ExtraAction, TableConfig } from "./grid.model";
 
 @Component({
   selector: "grid",
@@ -16,14 +16,19 @@ export class GridComponent {
     this.initTableConfig(data);
   }
 
+  @Output() onAction: EventEmitter<any> = new EventEmitter<any>();
+
   //Table
   columnMetaData: Array<Column>;
   displayedColumns: string[];
   hidden: boolean = false;
 
-  //Incell
+  //Action Column
   isEdit: boolean = false;
   isDelete: boolean = false;
+  beforeAction: ExtraAction[] = [];
+  afterAction: ExtraAction[] = [];
+  inbetweenAction: ExtraAction[] = [];
 
   constructor() {}
 
@@ -53,6 +58,23 @@ export class GridComponent {
       this.isEdit = data.inline.isEdit;
       this.isDelete = data.inline.isDelete;
       this.displayedColumns.push("Action");
+
+      //For showing extra action button
+      if (data.inline.hasOwnProperty("options")) {
+        this.beforeAction = data.inline.options!.before
+          ? data.inline.options!.before
+          : [];
+        this.afterAction = data.inline.options!.after
+          ? data.inline.options!.after
+          : [];
+        this.inbetweenAction = data.inline.options!.inbetween
+          ? data.inline.options!.inbetween
+          : [];
+      }
     }
+  }
+
+  actionClick(data: any) {
+    this.onAction.emit(data);
   }
 }
