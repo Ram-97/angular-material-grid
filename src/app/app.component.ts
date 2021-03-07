@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
 import { dataList } from "./data";
-import { Column, TableConfig } from "./grid/grid.model";
+import { Column, DirtyData, TableConfig } from "./grid/grid.model";
 
 @Component({
   selector: "my-app",
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   column: Array<Column>;
   tableConfig: TableConfig;
-
+  closeRow: any;
   constructor() {}
 
   ngOnInit() {
@@ -38,7 +38,12 @@ export class AppComponent implements OnInit {
     this.dataSource = new MatTableDataSource(event.value.dataSource);
   }
 
-  customAction(data: any) {
+  message(data: any) {
     console.log(data);
+  }
+
+  onRowClose(data: DirtyData) {
+    console.log(data);
+    this.closeRow = data;
   }
 }

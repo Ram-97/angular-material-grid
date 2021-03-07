@@ -7,4 +7,5 @@
   </mat-select>
 </mat-form-field>
 
-<grid [dataSource]="dataSource" [column]="column" [config]="tableConfig" (onAction)="customAction($event)"></grid>
+<grid [dataSource]="dataSource" [column]="column" [config]="tableConfig" [closeRow]="closeRow"
+  (onAction)="message($event)" (onRowOpen)="message($event)" (onRowClose)="onRowClose($event)"></grid>

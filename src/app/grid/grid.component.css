@@ -12,3 +12,12 @@
   position: absolute;
   right: 0;
 }
+
+.grid-container .disable {
+  pointer-events: none;
+  color: lightgray;
+}
+
+.grid-container .confirm {
+  color: green !important;
+}
