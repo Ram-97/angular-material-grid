@@ -17,20 +17,21 @@ export enum ColumnType {
   TEXTAREA = "textArea",
   DROPDOWN = "dropDown",
   AUTOCOMPLETE = "autoComplete",
-  NUMBER = "number"
+  NUMBER = "number",
+  CHECKBOX = "checkbox"
 }
 
 export interface Inline {
   isEdit: boolean;
   isDelete: boolean;
   options?: {
-    before?: ExtraAction[];
-    inbetween?: ExtraAction[];
-    after?: ExtraAction[];
+    before?: Action[];
+    inbetween?: Action[];
+    after?: Action[];
   };
 }
 
-export interface ExtraAction {
+export interface Action {
   iconName: string;
   color?: string;
   toolTip: string;
@@ -38,4 +39,10 @@ export interface ExtraAction {
 
 export interface TableConfig {
   inline?: Inline;
+}
+
+export interface DirtyData {
+  index: number;
+  selectedRow: any;
+  dirtyFields: any;
 }

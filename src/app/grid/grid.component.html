@@ -6,9 +6,23 @@
       <span *ngIf="column?.separator" class="separator">&nbsp;</span>
     </th>
     <td mat-cell *matCellDef="let element; let rowIndex = index">
-      <ng-container>
+      <ng-container *ngIf="!column?.isEditable || selectedRowIndex !== rowIndex; else controls">
         {{element[column.name]}}
       </ng-container>
+
+      <ng-template #controls>
+        <ng-container [ngSwitch]="column?.type">
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.TEXT">
+            <input matInput [(ngModel)]="selectedRow[column.name]" (ngModelChange)="checkEditableColData()" #textField="ngModel" required>
+          </mat-form-field>
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.NUMBER">
+            <input matInput type="number" [(ngModel)]="selectedRow[column.name]" (ngModelChange)="checkEditableColData()" #textField="ngModel" required>
+          </mat-form-field>
+          <mat-form-field appearance="outline" *ngSwitchDefault>
+            <input matInput [(ngModel)]="selectedRow[column.name]" (ngModelChange)="checkEditableColData()"   #textField="ngModel" required>
+          </mat-form-field>
+        </ng-container>
+      </ng-template>
     </td>
   </ng-container>
 
@@ -18,25 +32,35 @@
     </th>
     <td mat-cell *matCellDef="let element; let rowIndex = index">
       <!--Before Action-->
-      <button mat-icon-button *ngFor="let action of beforeAction" (click)="actionClick(element)">
+      <button mat-icon-button *ngFor="let action of beforeAction" (click)="onAction.emit(element)">
         <mat-icon [style.color]="action?.color ? action.color : '#808080'" class="icon-medium" [matTooltip]="action.toolTip"> {{action.iconName}} </mat-icon>
       </button>
 
-      <button mat-icon-button *ngIf="isEdit">
+      <button mat-icon-button *ngIf="isEdit && selectedRowIndex !== rowIndex; else editRow"
+        (click)="rowOpen(rowIndex, element)">
         <mat-icon style="color:#808080;" class="icon-medium" matTooltip="Edit">edit</mat-icon>
       </button>
 
-      <!--Middle Action-->
-      <button mat-icon-button *ngFor="let action of inbetweenAction" (click)="actionClick(element)">
+      <ng-template #editRow>
+        <button mat-icon-button (click)="inlineEdit(element);" [ngClass]="{disable: disableConfirmAction}">
+          <mat-icon style="color:#808080;" class="icon-medium" [ngClass]="{confirm:!disableConfirmAction}" matTooltip="Confirm">check</mat-icon>
+        </button>
+        <button mat-icon-button (click)="inlineEdit(element,hasCancel);">
+          <mat-icon style="color:#808080;" class="icon-medium" matTooltip="Cancel">close</mat-icon>
+        </button>
+      </ng-template>
+
+      <!--InBetween Action-->
+      <button mat-icon-button *ngFor="let action of inbetweenAction" (click)="onAction.emit(element)">
         <mat-icon [style.color]="action?.color ? action.color : '#808080'" class="icon-medium" [matTooltip]="action.toolTip"> {{action.iconName}} </mat-icon>
       </button>
 
-      <button mat-icon-button *ngIf="isDelete">
+      <button mat-icon-button *ngIf="isDelete && selectedRowIndex !== rowIndex" (click)="inlineEdit(element);">
         <mat-icon style="color:#ff0000;" class="icon-medium" matTooltip="Delete">delete</mat-icon>
       </button>
 
       <!--After Action-->
-      <button mat-icon-button *ngFor="let action of afterAction" (click)="actionClick(element)">
+      <button mat-icon-button *ngFor="let action of afterAction" (click)="onAction.emit(element)">
         <mat-icon [style.color]="action?.color ? action.color : '#808080'" class="icon-medium" [matTooltip]="action.toolTip"> {{action.iconName}} </mat-icon>
       </button>
     </td>

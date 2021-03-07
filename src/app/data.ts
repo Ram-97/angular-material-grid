@@ -1,4 +1,4 @@
-import { TableConfig } from "./grid/grid.model";
+import { ColumnType, TableConfig } from "./grid/grid.model";
 
 export const ELEMENT_DATA: any = [
   { position: 1, name: "Hydrogen", weight: 1.0079, symbol: "H" },
@@ -53,20 +53,29 @@ export const Column1 = [
   {
     name: "position",
     title: "position",
-    separator: true
+    type: ColumnType.NUMBER,
+    width: 100,
+    separator: true,
+    isEditable: true
   },
   {
     name: "name",
     title: "name",
+    type: ColumnType.TEXT,
+    isEditable: true,
+    width: 100,
     separator: true
   },
   {
     name: "weight",
-    title: "weight"
+    title: "weight",
+    width: 100,
+    separator: true
   },
   {
     name: "symbol",
     title: "symbol",
+    width: 100,
     separator: true
   }
 ];
