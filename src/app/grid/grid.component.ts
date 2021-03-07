@@ -168,4 +168,9 @@ export class GridComponent {
     result.dirtyFields = dirtyFields;
     return result;
   }
+
+  omitSpecialChar(event: any){   
+    let key = event.charCode; 
+    return ((key > 47 && key < 58) || key == 45 || key == 46);
+  }
 }
