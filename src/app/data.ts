@@ -50,14 +50,14 @@ export const ELEMENT_DATA1: any = [
 ];
 
 export const Column1 = [
-  {
-    name: "date",
-    title: "date",
-    type: ColumnType.DATE,
-    width: 100,
-    separator: true,
-    isEditable: true
-  },
+  // {
+  //   name: "date",
+  //   title: "date",
+  //   type: ColumnType.DATE,
+  //   width: 100,
+  //   separator: true,
+  //   isEditable: true
+  // },
   {
     name: "position",
     title: "position",

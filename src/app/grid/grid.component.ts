@@ -86,7 +86,7 @@ export class GridComponent {
       this.isEdit = data.inline.isEdit;
       this.isDelete = data.inline.isDelete;
       this.displayedColumns.push("Action");
-      this.initEditColumn();
+      this.getEditableColFromMetaData();
       //For showing extra action button
       if (data.inline.hasOwnProperty("options")) {
         this.beforeAction = data.inline.options!.before
@@ -102,7 +102,7 @@ export class GridComponent {
     }
   }
 
-  private initEditColumn(){
+  private getEditableColFromMetaData(){
     this.editableColumn = this.columnMetaData.reduce((acc: string[], curr: Column)=>{
       if(curr?.isEditable){
         acc.push(curr.name);
@@ -137,7 +137,7 @@ export class GridComponent {
     this.disableConfirmAction = disable;
   }
 
-  inlineEdit(data: any, revert: boolean = false) {
+  inlineDefaultActions(data: any, revert: boolean = false) {
     let confirmData = this.getDirtyData(data);
     if (!confirmData) {
       this.selectedRowIndex = -1;

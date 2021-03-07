@@ -47,10 +47,10 @@
       </button>
 
       <ng-template #editRow>
-        <button mat-icon-button (click)="inlineEdit(element);" [ngClass]="{disable: disableConfirmAction}">
+        <button mat-icon-button (click)="inlineDefaultActions(element);" [ngClass]="{disable: disableConfirmAction}">
           <mat-icon style="color:#808080;" class="icon-medium" [ngClass]="{confirm:!disableConfirmAction}" matTooltip="Confirm">check</mat-icon>
         </button>
-        <button mat-icon-button (click)="inlineEdit(element,hasCancel);">
+        <button mat-icon-button (click)="inlineDefaultActions(element,hasCancel);">
           <mat-icon style="color:#808080;" class="icon-medium" matTooltip="Cancel">close</mat-icon>
         </button>
       </ng-template>
@@ -60,7 +60,7 @@
         <mat-icon [style.color]="action?.color ? action.color : '#808080'" class="icon-medium" [matTooltip]="action.toolTip"> {{action.iconName}} </mat-icon>
       </button>
 
-      <button mat-icon-button *ngIf="isDelete && selectedRowIndex !== rowIndex" (click)="inlineEdit(element);">
+      <button mat-icon-button *ngIf="isDelete && selectedRowIndex !== rowIndex" (click)="inlineDefaultActions(element);">
         <mat-icon style="color:#ff0000;" class="icon-medium" matTooltip="Delete">delete</mat-icon>
       </button>
 
