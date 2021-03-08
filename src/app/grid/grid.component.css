@@ -14,8 +14,7 @@
 }
 
 .grid-container .disable {
-  pointer-events: none;
-  color: lightgray;
+  cursor: no-drop;
 }
 
 .grid-container .confirm {

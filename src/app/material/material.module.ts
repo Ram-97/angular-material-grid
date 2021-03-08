@@ -8,7 +8,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatInputModule } from "@angular/material/input";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
-import { FormsModule } from "@angular/forms";
+import {CommonModule} from '@angular/common';
+import { FormsModule,ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   imports: [
@@ -21,7 +22,9 @@ import { FormsModule } from "@angular/forms";
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule
   ],
   exports: [
     MatTableModule,
@@ -33,7 +36,9 @@ import { FormsModule } from "@angular/forms";
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule
   ]
 })
 export class MaterialModule {}

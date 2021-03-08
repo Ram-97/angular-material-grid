@@ -11,20 +11,20 @@
       </ng-container>
 
       <ng-template #controls>
-        <ng-container [ngSwitch]="column?.type">
+        <ng-container [ngSwitch]="column?.type" [formGroup]="editableColFormGrp">
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.TEXT">
-            <input matInput [(ngModel)]="selectedRow[column.name]" (ngModelChange)="checkEditableColData()" #textField="ngModel" required>
+            <input matInput formControlName="{{column.name}}" required>
           </mat-form-field>
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.NUMBER">
-            <input matInput type="number" [(ngModel)]="selectedRow[column.name]" (keypress)="omitSpecialChar($event);" (ngModelChange)="checkEditableColData()" #numberField="ngModel" required>
+            <input matInput type="number" formControlName="{{column.name}}" (keypress)="omitSpecialChar($event);" required>
           </mat-form-field>
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.DATE">
-            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedRow[column.name]" (ngModelChange)="checkEditableColData()" readonly>
+            <input matInput [matDatepicker]="picker" formControlName="{{column.name}}" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field appearance="outline" *ngSwitchDefault>
-            <input matInput [(ngModel)]="selectedRow[column.name]" (ngModelChange)="checkEditableColData()"   #textField="ngModel" required>
+            <input matInput formControlName="{{column.name}}" required>
           </mat-form-field>
         </ng-container>
       </ng-template>
@@ -47,8 +47,8 @@
       </button>
 
       <ng-template #editRow>
-        <button mat-icon-button (click)="inlineDefaultActions(element);" [ngClass]="{disable: disableConfirmAction}">
-          <mat-icon style="color:#808080;" class="icon-medium" [ngClass]="{confirm:!disableConfirmAction}" matTooltip="Confirm">check</mat-icon>
+        <button mat-icon-button (click)="inlineDefaultActions(element);" [disabled]="!this.editableColFormGrp.valid" [ngClass]="{disable: !this.editableColFormGrp.valid}">
+          <mat-icon style="color:#808080;" class="icon-medium" [ngClass]="{confirm:this.editableColFormGrp.valid}" matTooltip="Confirm">check</mat-icon>
         </button>
         <button mat-icon-button (click)="inlineDefaultActions(element,hasCancel);">
           <mat-icon style="color:#808080;" class="icon-medium" matTooltip="Cancel">close</mat-icon>

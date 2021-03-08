@@ -5,6 +5,7 @@ import {
   Output,
   ViewChild
 } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import {
   Column,
@@ -49,12 +50,12 @@ export class GridComponent {
   inbetweenAction: Action[] = [];
 
   //Incell Confirm Action
-  editableColumn: string[] = [];
-  disableConfirmAction: boolean;
+  editableColFormGrp: FormGroup;
+  private editableColName: string[];
 
   //Incell
   selectedRowIndex: number = -1;
-  selectedRow: any;
+  private selectedRow: any;
   hasCancel: boolean = true;
   @ViewChild(MatTable) table: MatTable<any>;
 
@@ -103,9 +104,11 @@ export class GridComponent {
   }
 
   private getEditableColFromMetaData(){
-    this.editableColumn = this.columnMetaData.reduce((acc: string[], curr: Column)=>{
-      if(curr?.isEditable){
-        acc.push(curr.name);
+    this.editableColFormGrp = new FormGroup({});
+    this.editableColName = this.columnMetaData.reduce((acc: string[],col: Column)=>{
+      if(col?.isEditable){
+        this.editableColFormGrp.addControl(col.name, new FormControl(null,Validators.required));
+        acc.push(col.name);
       }
       return acc;
     },[]);
@@ -123,18 +126,14 @@ export class GridComponent {
   rowOpen(rowIndex: number, data: any) {
     this.selectedRowIndex = rowIndex;
     this.selectedRow = JSON.parse(JSON.stringify(data));
+    this.initSelectedRowValToFormGrp();
     this.onRowOpen.emit(data);
-    this.checkEditableColData();
   }
 
-  checkEditableColData(){
-    let disable: boolean = false;
-    this.editableColumn.forEach((key: string)=>{
-      if(!this.selectedRow[key].toString()){
-        disable = true;
-      }
+  private initSelectedRowValToFormGrp(){
+    this.editableColName.forEach((key: string)=>{
+      this.editableColFormGrp.get(key).setValue(this.selectedRow[key]);
     });
-    this.disableConfirmAction = disable;
   }
 
   inlineDefaultActions(data: any, revert: boolean = false) {
@@ -152,8 +151,9 @@ export class GridComponent {
 
   private getDirtyData(data: any) {
     let result: DirtyData = {} as DirtyData;
-    let dirtyFields = Object.keys(data).reduce((acc: any, key: string) => {
-      if (data[key] !== this.selectedRow[key]) {
+    let dirtyFields = this.editableColName.reduce((acc: any, key: string) => {
+      if (data[key] !== this.editableColFormGrp.get(key).value) {
+        this.selectedRow[key] = this.editableColFormGrp.get(key).value;
         acc[key] = this.selectedRow[key];
       }
       return acc;
