@@ -37,27 +37,27 @@ export const Column = [
 ];
 
 export const ELEMENT_DATA1: any = [
-  { date:'Thu Mar 04 2021 00:00:00 GMT+0530 (India Standard Time)',position: 1, name: "Hydrogen", weight: 1.0079, symbol: "H" },
-  { date:'Thu Mar 04 2021 00:00:00 GMT+0530 (India Standard Time)',position: 2, name: "Helium", weight: 4.0026, symbol: "He" },
-  { date:'Thu Mar 04 2021 00:00:00 GMT+0530 (India Standard Time)',position: 3, name: "Lithium", weight: 6.941, symbol: "Li" },
-  { date:'Thu Mar 04 2021 00:00:00 GMT+0530 (India Standard Time)',position: 4, name: "Beryllium", weight: 9.0122, symbol: "Be" },
-  { date:'Thu Mar 04 2021 00:00:00 GMT+0530 (India Standard Time)',position: 5, name: "Boron", weight: 10.811, symbol: "B" },
-  { date:'Thu Mar 04 2021 00:00:00 GMT+0530 (India Standard Time)',position: 6, name: "Carbon", weight: 12.0107, symbol: "C" },
-  { date:'Thu Mar 04 2021 00:00:00 GMT+0530 (India Standard Time)',position: 7, name: "Nitrogen", weight: 14.0067, symbol: "N" },
-  { date:'Thu Mar 04 2021 00:00:00 GMT+0530 (India Standard Time)',position: 8, name: "Oxygen", weight: 15.9994, symbol: "O" },
-  { date:'Thu Mar 04 2021 00:00:00 GMT+0530 (India Standard Time)',position: 9, name: "Fluorine", weight: 18.9984, symbol: "F" },
-  { date:'Thu Mar 04 2021 00:00:00 GMT+0530 (India Standard Time)',position: 10, name: "Neon", weight: 20.1797, symbol: "Ne" }
+  { date:'2021-03-09 18:30:00.000Z',position: 1, name: "Hydrogen", weight: 1.0079, symbol: "H" },
+  { date:'',position: 2, name: "Helium", weight: 4.0026, symbol: "He" },
+  { date:'2021-03-09 18:30:00.000Z',position: 3, name: "Lithium", weight: 6.941, symbol: "Li" },
+  { date:'2021-03-09 18:30:00.000Z',position: 4, name: "Beryllium", weight: 9.0122, symbol: "Be" },
+  { date:'2021-03-09 18:30:00.000Z',position: 5, name: "Boron", weight: 10.811, symbol: "B" },
+  { date:'2021-03-09 18:30:00.000Z',position: 6, name: "Carbon", weight: 12.0107, symbol: "C" },
+  { date:'2021-03-09 18:30:00.000Z',position: 7, name: "Nitrogen", weight: 14.0067, symbol: "N" },
+  { date:'2021-03-09 18:30:00.000Z',position: 8, name: "Oxygen", weight: 15.9994, symbol: "O" },
+  { date:'2021-03-09 18:30:00.000Z',position: 9, name: "Fluorine", weight: 18.9984, symbol: "F" },
+  { date:'2021-03-09 18:30:00.000Z',position: 10, name: "Neon", weight: 20.1797, symbol: "Ne" }
 ];
 
 export const Column1 = [
-  // {
-  //   name: "date",
-  //   title: "date",
-  //   type: ColumnType.DATE,
-  //   width: 100,
-  //   separator: true,
-  //   isEditable: true
-  // },
+  {
+    name: "date",
+    title: "date",
+    type: ColumnType.DATE,
+    width: 100,
+    separator: true,
+    isEditable: true
+  },
   {
     name: "position",
     title: "position",

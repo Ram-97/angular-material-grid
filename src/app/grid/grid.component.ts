@@ -51,7 +51,7 @@ export class GridComponent {
 
   //Incell Confirm Action
   editableColFormGrp: FormGroup;
-  private editableColName: string[];
+  private editableColumn: Column[];
 
   //Incell
   selectedRowIndex: number = -1;
@@ -105,10 +105,10 @@ export class GridComponent {
 
   private getEditableColFromMetaData(){
     this.editableColFormGrp = new FormGroup({});
-    this.editableColName = this.columnMetaData.reduce((acc: string[],col: Column)=>{
+    this.editableColumn = this.columnMetaData.reduce((acc: Column[],col: Column)=>{
       if(col?.isEditable){
         this.editableColFormGrp.addControl(col.name, new FormControl(null,Validators.required));
-        acc.push(col.name);
+        acc.push(col);
       }
       return acc;
     },[]);
@@ -131,8 +131,18 @@ export class GridComponent {
   }
 
   private initSelectedRowValToFormGrp(){
-    this.editableColName.forEach((key: string)=>{
-      this.editableColFormGrp.get(key).setValue(this.selectedRow[key]);
+    this.editableColumn.forEach((col: Column)=>{
+      let value : any;
+      switch(col.type){
+        case this.columnType.DATE:
+        case this.columnType.DATETIME:
+            value = this.selectedRow[col.name] ? new Date(this.selectedRow[col.name]) : null;
+          break;
+        default:
+          value =this.selectedRow[col.name];
+          break;
+      }
+      this.editableColFormGrp.get(col.name).setValue(value);
     });
   }
 
@@ -151,10 +161,10 @@ export class GridComponent {
 
   private getDirtyData(data: any) {
     let result: DirtyData = {} as DirtyData;
-    let dirtyFields = this.editableColName.reduce((acc: any, key: string) => {
-      if (data[key] !== this.editableColFormGrp.get(key).value) {
-        this.selectedRow[key] = this.editableColFormGrp.get(key).value;
-        acc[key] = this.selectedRow[key];
+    let dirtyFields = this.editableColumn.reduce((acc: any, col: Column) => {
+      if(this.colTypeCheckForDirtyData(col,data)){
+        this.selectedRow[col.name] = this.editableColFormGrp.get(col.name).value;
+        acc[col.name] = this.selectedRow[col.name];
       }
       return acc;
     }, {});
@@ -167,6 +177,27 @@ export class GridComponent {
     result.selectedRow = this.selectedRow;
     result.dirtyFields = dirtyFields;
     return result;
+  }
+
+  private colTypeCheckForDirtyData(col: Column, data: any): boolean{
+    let isDirty: boolean = false;
+    switch(col.type){
+      case this.columnType.DATE:
+      case this.columnType.DATETIME:
+        if(this.editableColFormGrp.get(col.name).value){
+          if(!data[col.name]){
+            isDirty= true;
+          }else if (new Date(data[col.name]).toISOString() !== new Date(this.editableColFormGrp.get(col.name).value).toISOString()) {
+            isDirty = true;
+        }}
+        break;
+      default:
+        if (data[col.name] !== this.editableColFormGrp.get(col.name).value) {
+          isDirty = true;
+        }
+        break;
+    }
+      return isDirty;
   }
 
   omitSpecialChar(event: any){   
