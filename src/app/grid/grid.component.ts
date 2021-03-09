@@ -35,6 +35,8 @@ export class GridComponent {
   @Output() onAction: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowOpen: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowClose: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onRowConfirm: EventEmitter<DirtyData> = new EventEmitter<DirtyData>();
+  @Output() onRowDelete: EventEmitter<any> = new EventEmitter<any>();
 
   //Table
   columnMetaData: Array<Column>;
@@ -127,7 +129,7 @@ export class GridComponent {
     this.selectedRowIndex = rowIndex;
     this.selectedRow = JSON.parse(JSON.stringify(data));
     this.initSelectedRowValToFormGrp();
-    this.onRowOpen.emit(data);
+    this.onRowOpen.emit(JSON.parse(JSON.stringify(data)));
   }
 
   private initSelectedRowValToFormGrp(){
@@ -146,17 +148,18 @@ export class GridComponent {
     });
   }
 
-  inlineDefaultActions(data: any, revert: boolean = false) {
+  inlineEditAction(data: any, revert: boolean = false) {
     let confirmData = this.getDirtyData(data);
-    if (!confirmData) {
+    if (!confirmData || revert) {
       this.selectedRowIndex = -1;
+      this.onRowClose.emit(JSON.parse(JSON.stringify(data)));
       return;
     }
-    if (revert) {
-      this.selectedRowIndex = -1;
-      return;
-    }
-    this.onRowClose.emit(confirmData);
+    this.onRowConfirm.emit(confirmData);
+  }
+
+  inlineDeleteAction(data: any){
+    this.onRowDelete.emit(JSON.parse(JSON.stringify(data)));
   }
 
   private getDirtyData(data: any) {

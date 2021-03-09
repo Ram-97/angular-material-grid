@@ -8,4 +8,4 @@
 </mat-form-field>
 
 <grid [dataSource]="dataSource" [column]="column" [config]="tableConfig" [closeRow]="closeRow"
-  (onAction)="message($event)" (onRowOpen)="message($event)" (onRowClose)="onRowClose($event)"></grid>
+  (onAction)="message($event)" (onRowOpen)="message($event)" (onRowClose)="message($event)" (onRowConfirm)="onRowConfirm($event)" (onRowDelete)="message($event)"></grid>

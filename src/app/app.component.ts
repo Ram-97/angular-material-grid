@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     console.log(data);
   }
 
-  onRowClose(data: DirtyData) {
+  onRowConfirm(data: DirtyData) {
     console.log(data);
     this.closeRow = data;
   }
