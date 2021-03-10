@@ -8,6 +8,17 @@ export interface Column {
   isSortable?: boolean;
   isSticky?: boolean;
   separator?: boolean;
+  options?:{
+    date?:DateOption,
+    dateTime:DateOption
+  }
+}
+
+export interface DateOption{
+    min?:Date,
+    max?:Date,
+    showSeconds?: boolean;
+    enableMeridian?: boolean;
 }
 
 export enum ColumnType {

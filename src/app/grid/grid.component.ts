@@ -126,9 +126,9 @@ export class GridComponent {
   }
 
   rowOpen(rowIndex: number, data: any) {
-    this.selectedRowIndex = rowIndex;
     this.selectedRow = JSON.parse(JSON.stringify(data));
     this.initSelectedRowValToFormGrp();
+    this.selectedRowIndex = rowIndex;
     this.onRowOpen.emit(JSON.parse(JSON.stringify(data)));
   }
 
