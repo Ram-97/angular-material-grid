@@ -19,15 +19,15 @@
             <input matInput type="number" formControlName="{{column.name}}" (keypress)="omitSpecialChar($event);" required>
           </mat-form-field>
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.DATE" class="cell">
-            <input matInput [matDatepicker]="picker" formControlName="{{column.name}}" [min]="column?.options?.date?.min" [max]="column?.options?.date?.max" readonly>
+            <input matInput [matDatepicker]="picker" formControlName="{{column.name}}" [min]="column?.cellOption?.date?.min" [max]="column?.cellOption?.date?.max" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.DATETIME" class="date-time-cell">
             <input matInput [ngxMatDatetimePicker]="picker1" formControlName="{{column.name}}"
-              [min]="column?.options?.dateTime?.min" [max]="column?.options?.dateTime?.max" readonly>
+              [min]="column?.cellOption?.dateTime?.min" [max]="column?.cellOption?.dateTime?.max" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <ngx-mat-datetime-picker #picker1 [showSeconds]="column?.options?.dateTime?.showSeconds" [enableMeridian]="column?.options?.dateTime?.enableMeridian">
+            <ngx-mat-datetime-picker #picker1 [showSeconds]="column?.cellOption?.dateTime?.showSeconds" [enableMeridian]="column?.cellOption?.dateTime?.enableMeridian">
             </ngx-mat-datetime-picker>
           </mat-form-field>
           <mat-form-field appearance="outline" *ngSwitchDefault class="cell">

@@ -1,3 +1,4 @@
+import { Validators } from "@angular/forms";
 import { ColumnType, TableConfig } from "./grid/grid.model";
 
 export const ELEMENT_DATA: any = [
@@ -57,7 +58,7 @@ export const Column1 = [
     width: 100,
     separator: true,
     isEditable: true,
-    options:{
+    cellOption:{
       dateTime:{
         min: new Date(2021, 0, 1),
         max: new Date(2021, 12, 0),
@@ -72,7 +73,7 @@ export const Column1 = [
     width: 100,
     separator: true,
     isEditable: true,
-    options:{
+    cellOption:{
       date:{
         min: new Date(2021, 0, 1),
         max: new Date(2021, 12, 0)
@@ -93,7 +94,10 @@ export const Column1 = [
     type: ColumnType.TEXT,
     isEditable: true,
     width: 100,
-    separator: true
+    separator: true,
+    cellOption:{
+      validation:[Validators.email]
+    }
   },
   {
     name: "weight",

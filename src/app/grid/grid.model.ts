@@ -1,3 +1,5 @@
+import { ValidatorFn } from "@angular/forms";
+
 export interface Column {
   name: string;
   title: string;
@@ -8,17 +10,20 @@ export interface Column {
   isSortable?: boolean;
   isSticky?: boolean;
   separator?: boolean;
-  options?:{
-    date?:DateOption,
-    dateTime:DateOption
-  }
+  cellOption?:cellOption;
+}
+
+export interface cellOption{
+  date?:DateOption;
+  dateTime:DateOption;
+  validation?:ValidatorFn[];
 }
 
 export interface DateOption{
-    min?:Date,
-    max?:Date,
-    showSeconds?: boolean;
-    enableMeridian?: boolean;
+  min?:Date,
+  max?:Date,
+  showSeconds?: boolean;
+  enableMeridian?: boolean;
 }
 
 export enum ColumnType {

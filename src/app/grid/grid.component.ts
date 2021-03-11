@@ -5,7 +5,7 @@ import {
   Output,
   ViewChild
 } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import {
   Column,
@@ -109,11 +109,22 @@ export class GridComponent {
     this.editableColFormGrp = new FormGroup({});
     this.editableColumn = this.columnMetaData.reduce((acc: Column[],col: Column)=>{
       if(col?.isEditable){
-        this.editableColFormGrp.addControl(col.name, new FormControl(null,Validators.required));
+        this.editableColFormGrp.addControl(col.name, new FormControl(null,this.getCellValidation(col)));
         acc.push(col);
       }
       return acc;
     },[]);
+    console.log(this.editableColFormGrp)
+    
+  }
+
+  private getCellValidation(col: Column): ValidatorFn[]{
+    if(col?.cellOption?.validation){
+      col!.cellOption!.validation.push(Validators.required)
+      return col!.cellOption!.validation;
+    }
+  
+    return [Validators.required];
   }
 
   private closeSelectedRow(data: DirtyData) {
