@@ -26,6 +26,11 @@ export interface DateOption{
   enableMeridian?: boolean;
 }
 
+export interface DropDown{
+  id: string | number,
+  description: string
+}
+
 export enum ColumnType {
   TEXT = "text",
   DATE = "date",

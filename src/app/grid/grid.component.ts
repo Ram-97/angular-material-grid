@@ -12,8 +12,10 @@ import {
   ColumnType,
   DirtyData,
   Action,
-  TableConfig
+  TableConfig, DropDown
 } from "./grid.model";
+import {map, startWith} from 'rxjs/operators';
+import { Observable, Observer } from "rxjs";
 
 @Component({
   selector: "grid",
@@ -60,6 +62,7 @@ export class GridComponent {
   private selectedRow: any;
   hasCancel: boolean = true;
   @ViewChild(MatTable) table: MatTable<any>;
+  autoCompleteFilterOptions: any = {};
 
   constructor() {}
 
@@ -113,9 +116,7 @@ export class GridComponent {
         acc.push(col);
       }
       return acc;
-    },[]);
-    console.log(this.editableColFormGrp)
-    
+    },[]);    
   }
 
   private getCellValidation(col: Column): ValidatorFn[]{
@@ -123,7 +124,6 @@ export class GridComponent {
       col!.cellOption!.validation.push(Validators.required)
       return col!.cellOption!.validation;
     }
-  
     return [Validators.required];
   }
 
@@ -149,7 +149,11 @@ export class GridComponent {
       switch(col.type){
         case this.columnType.DATE:
         case this.columnType.DATETIME:
-            value = this.selectedRow[col.name] ? new Date(this.selectedRow[col.name]) : null;
+          value = this.selectedRow[col.name] ? new Date(this.selectedRow[col.name]) : null;
+          break;
+        case this.columnType.AUTOCOMPLETE:
+          this.autoCompleteFilterOptions[col.name] = new Observable<string[]>();
+          this.editableColFormGrp.get(col.name).valueChanges.subscribe((data: any)=> console.log(data));
           break;
         default:
           value =this.selectedRow[col.name];

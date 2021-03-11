@@ -103,11 +103,13 @@ export const Column1 = [
     name: "weight",
     title: "weight",
     width: 100,
-    separator: true
+    separator: true,
   },
   {
     name: "symbol",
     title: "symbol",
+    type:ColumnType.AUTOCOMPLETE,
+    isEditable: true,
     width: 100,
     separator: true
   }

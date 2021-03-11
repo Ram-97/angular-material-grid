@@ -12,17 +12,24 @@
 
       <ng-template #controls>
         <ng-container [ngSwitch]="column?.type" [formGroup]="editableColFormGrp">
+          <!--text Control-->
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.TEXT" class="cell">
             <input matInput formControlName="{{column.name}}" required>
           </mat-form-field>
+
+          <!--number Control-->
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.NUMBER" class="cell">
             <input matInput type="number" formControlName="{{column.name}}" (keypress)="omitSpecialChar($event);" required>
           </mat-form-field>
+
+          <!--date Control-->
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.DATE" class="cell">
             <input matInput [matDatepicker]="picker" formControlName="{{column.name}}" [min]="column?.cellOption?.date?.min" [max]="column?.cellOption?.date?.max" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
+
+          <!--date time control -->
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.DATETIME" class="date-time-cell">
             <input matInput [ngxMatDatetimePicker]="picker1" formControlName="{{column.name}}"
               [min]="column?.cellOption?.dateTime?.min" [max]="column?.cellOption?.dateTime?.max" readonly>
@@ -30,6 +37,18 @@
             <ngx-mat-datetime-picker #picker1 [showSeconds]="column?.cellOption?.dateTime?.showSeconds" [enableMeridian]="column?.cellOption?.dateTime?.enableMeridian">
             </ngx-mat-datetime-picker>
           </mat-form-field>
+
+          <!--autocomplete control-->
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.AUTOCOMPLETE">
+            <input matInput formControlName="{{column.name}}" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of autoCompleteFilterOptions[column.name] | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <!--default control-->
           <mat-form-field appearance="outline" *ngSwitchDefault class="cell">
             <input matInput formControlName="{{column.name}}" required>
           </mat-form-field>
