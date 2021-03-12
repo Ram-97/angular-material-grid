@@ -14,7 +14,8 @@ import {
   Action,
   TableConfig, DropDown
 } from "./grid.model";
-import { Observable } from "rxjs";
+import { debounceTime, take } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "grid",
@@ -62,7 +63,11 @@ export class GridComponent {
   private selectedRow: any;
   hasCancel: boolean = true;
   @ViewChild(MatTable) table: MatTable<any>;
+
+  //Incell Autocomplete
   autoCompleteFilterOptions: any = {};
+  private subscription: Subscription = new Subscription;
+
 
   constructor() {}
 
@@ -153,17 +158,19 @@ export class GridComponent {
           break;
         case this.columnType.AUTOCOMPLETE:
           this.autoCompleteFilterOptions[col.name] = new Array<DropDown>();
-          this.editableColFormGrp.get(col.name).valueChanges.subscribe((data: string)=> this.onAutoCompleteTextChange.emit(data));
+          this.subscription=this.editableColFormGrp.get(col.name).valueChanges.pipe(
+            debounceTime(1000)).subscribe((data: string)=> this.onAutoCompleteTextChange.emit(data));
           break;
         default:
           value =this.selectedRow[col.name];
           break;
       }
-      this.editableColFormGrp.get(col.name).setValue(value);
+      this.editableColFormGrp.get(col.name).setValue(value,{emitEvent:false});
     });
   }
 
   inlineEditAction(data: any, revert: boolean = false) {
+    this.subscription.unsubscribe();
     let confirmData = this.getDirtyData();
     if (!confirmData || revert) {
       this.selectedRowIndex = -1;
