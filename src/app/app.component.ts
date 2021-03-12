@@ -46,4 +46,8 @@ export class AppComponent implements OnInit {
     console.log(data);
     this.closeRow = data;
   }
+
+  onAutoCompleteTextChange(data: string){
+    console.log(data);
+  }
 }

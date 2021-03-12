@@ -14,8 +14,7 @@ import {
   Action,
   TableConfig, DropDown
 } from "./grid.model";
-import {map, startWith} from 'rxjs/operators';
-import { Observable, Observer } from "rxjs";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "grid",
@@ -39,6 +38,7 @@ export class GridComponent {
   @Output() onRowClose: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowConfirm: EventEmitter<DirtyData> = new EventEmitter<DirtyData>();
   @Output() onRowDelete: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onAutoCompleteTextChange: EventEmitter<string> = new EventEmitter<string>()
 
   //Table
   columnMetaData: Array<Column>;
@@ -152,8 +152,8 @@ export class GridComponent {
           value = this.selectedRow[col.name] ? new Date(this.selectedRow[col.name]) : null;
           break;
         case this.columnType.AUTOCOMPLETE:
-          this.autoCompleteFilterOptions[col.name] = new Observable<string[]>();
-          this.editableColFormGrp.get(col.name).valueChanges.subscribe((data: any)=> console.log(data));
+          this.autoCompleteFilterOptions[col.name] = new Array<DropDown>();
+          this.editableColFormGrp.get(col.name).valueChanges.subscribe((data: string)=> this.onAutoCompleteTextChange.emit(data));
           break;
         default:
           value =this.selectedRow[col.name];
@@ -164,7 +164,7 @@ export class GridComponent {
   }
 
   inlineEditAction(data: any, revert: boolean = false) {
-    let confirmData = this.getDirtyData(data);
+    let confirmData = this.getDirtyData();
     if (!confirmData || revert) {
       this.selectedRowIndex = -1;
       this.onRowClose.emit(JSON.parse(JSON.stringify(data)));
@@ -177,12 +177,13 @@ export class GridComponent {
     this.onRowDelete.emit(JSON.parse(JSON.stringify(data)));
   }
 
-  private getDirtyData(data: any) {
+  private getDirtyData() {
     let result: DirtyData = {} as DirtyData;
     let dirtyFields = this.editableColumn.reduce((acc: any, col: Column) => {
-      if(this.colTypeCheckForDirtyData(col,data)){
+      if(this.editableColFormGrp.get(col.name).dirty){
         this.selectedRow[col.name] = this.editableColFormGrp.get(col.name).value;
         acc[col.name] = this.selectedRow[col.name];
+        this.editableColFormGrp.get(col.name).reset(this.selectedRow[col.name],{emitEvent:false});
       }
       return acc;
     }, {});
@@ -197,26 +198,26 @@ export class GridComponent {
     return result;
   }
 
-  private colTypeCheckForDirtyData(col: Column, data: any): boolean{
-    let isDirty: boolean = false;
-    switch(col.type){
-      case this.columnType.DATE:
-      case this.columnType.DATETIME:
-        if(this.editableColFormGrp.get(col.name).value){
-          if(!data[col.name]){
-            isDirty= true;
-          }else if (new Date(data[col.name]).toISOString() !== new Date(this.editableColFormGrp.get(col.name).value).toISOString()) {
-            isDirty = true;
-        }}
-        break;
-      default:
-        if (data[col.name] !== this.editableColFormGrp.get(col.name).value) {
-          isDirty = true;
-        }
-        break;
-    }
-      return isDirty;
-  }
+  // private colTypeCheckForDirtyData(col: Column, data: any): boolean{
+  //   let isDirty: boolean = false;
+  //   switch(col.type){
+  //     case this.columnType.DATE:
+  //     case this.columnType.DATETIME:
+  //       if(this.editableColFormGrp.get(col.name).value){
+  //         if(!data[col.name]){
+  //           isDirty= true;
+  //         }else if (new Date(data[col.name]).toISOString() !== new Date(this.editableColFormGrp.get(col.name).value).toISOString()) {
+  //           isDirty = true;
+  //       }}
+  //       break;
+  //     default:
+  //       if (data[col.name] !== this.editableColFormGrp.get(col.name).value) {
+  //         isDirty = true;
+  //       }
+  //       break;
+  //   }
+  //     return isDirty;
+  // }
 
   omitSpecialChar(event: any){   
     let key = event.charCode; 
