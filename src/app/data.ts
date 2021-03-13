@@ -58,7 +58,8 @@ export const ELEMENT_DATA1: any = [
     name: "Hydrogen",
     weight: 1.0079,
     symbol: "H",
-    autoComplete: "He"
+    autoComplete: "He",
+    checkbox: null
   },
   {
     dateTime: "",
@@ -67,7 +68,8 @@ export const ELEMENT_DATA1: any = [
     name: "Helium",
     weight: 4.0026,
     symbol: "He",
-    autoComplete: ""
+    autoComplete: "",
+    checkbox: 1
   },
   {
     dateTime: "2021-03-09 21:30:00.000Z",
@@ -76,7 +78,8 @@ export const ELEMENT_DATA1: any = [
     name: "Lithium",
     weight: 6.941,
     symbol: "Li",
-    autoComplete: "He"
+    autoComplete: "He",
+    checkbox: true
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -85,7 +88,8 @@ export const ELEMENT_DATA1: any = [
     name: "Beryllium",
     weight: 9.0122,
     symbol: "Be",
-    autoComplete: "He"
+    autoComplete: "He",
+    checkbox: 0
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -94,7 +98,8 @@ export const ELEMENT_DATA1: any = [
     name: "Boron",
     weight: 10.811,
     symbol: "B",
-    autoComplete: "He"
+    autoComplete: "He",
+    checkbox: false
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -103,7 +108,8 @@ export const ELEMENT_DATA1: any = [
     name: "Carbon",
     weight: 12.0107,
     symbol: "C",
-    autoComplete: "He"
+    autoComplete: "He",
+    checkbox: null
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -112,7 +118,8 @@ export const ELEMENT_DATA1: any = [
     name: "Nitrogen",
     weight: 14.0067,
     symbol: "N",
-    autoComplete: "He"
+    autoComplete: "He",
+    checkbox: null
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -121,7 +128,8 @@ export const ELEMENT_DATA1: any = [
     name: "Oxygen",
     weight: 15.9994,
     symbol: "O",
-    autoComplete: "He"
+    autoComplete: "He",
+    checkbox: null
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -130,7 +138,8 @@ export const ELEMENT_DATA1: any = [
     name: "Fluorine",
     weight: 18.9984,
     symbol: "F",
-    autoComplete: "He"
+    autoComplete: "He",
+    checkbox: null
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -139,7 +148,8 @@ export const ELEMENT_DATA1: any = [
     name: "Neon",
     weight: 20.1797,
     symbol: "Ne",
-    autoComplete: "He"
+    autoComplete: "He",
+    checkbox: null
   }
 ];
 
@@ -213,6 +223,14 @@ export const Column1 = [
     name: "autoComplete",
     title: "autoComplete",
     type: ColumnType.AUTOCOMPLETE,
+    isEditable: true,
+    width: 100,
+    separator: true
+  },
+  {
+    name: "checkbox",
+    title: "checkbox",
+    type: ColumnType.CHECKBOX,
     isEditable: true,
     width: 100,
     separator: true
