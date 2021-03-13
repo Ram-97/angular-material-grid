@@ -2,7 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
 import { autoCompleteData, dataList } from "./data";
-import { AutoCompleteText, Column, DirtyData, DropDown, TableConfig } from "./grid/grid.model";
+import {
+  AutoCompleteText,
+  Column,
+  DirtyData,
+  TableConfig
+} from "./grid/grid.model";
 
 @Component({
   selector: "my-app",
@@ -19,9 +24,10 @@ export class AppComponent implements OnInit {
   column: Array<Column>;
   tableConfig: TableConfig;
   updateRow: any;
+  deleteRow: any;
 
   autoCompleteFilterOption = autoCompleteData;
-  updateAutoComplete:AutoCompleteText;
+  updateAutoComplete: AutoCompleteText;
   constructor() {}
 
   ngOnInit() {
@@ -50,11 +56,22 @@ export class AppComponent implements OnInit {
     this.updateRow = data;
   }
 
-  onAutoCompleteTextChange(data: AutoCompleteText){
+  onRowDelete(data: any) {
+    console.log(data);
+    this.deleteRow = data;
+    // let slicedData = this.dataSource.data.reduce((acc,x) => {
+    //   if(x.position !== data.position){acc.push(x)}return acc;
+    //   },[]);
+    // this.dataSource = new MatTableDataSource(slicedData);
+  }
+
+  onAutoCompleteTextChange(data: AutoCompleteText) {
     let filterValue: string = data.text!.toLowerCase();
     this.updateAutoComplete = {
-      column:data.column,
-      data:this.autoCompleteFilterOption.filter(x=> x.id.toLowerCase().indexOf(filterValue) === 0 )
-    }
+      column: data.column,
+      data: this.autoCompleteFilterOption.filter(
+        x => x.id.toLowerCase().indexOf(filterValue) === 0
+      )
+    };
   }
 }

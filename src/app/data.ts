@@ -44,7 +44,8 @@ export const ELEMENT_DATA1: any = [
     position: 1,
     name: "Hydrogen",
     weight: 1.0079,
-    symbol: "H"
+    symbol: "H",
+    autoComplete: "He"
   },
   {
     dateTime: "",
@@ -52,7 +53,8 @@ export const ELEMENT_DATA1: any = [
     position: 2,
     name: "Helium",
     weight: 4.0026,
-    symbol: "He"
+    symbol: "He",
+    autoComplete: ""
   },
   {
     dateTime: "2021-03-09 21:30:00.000Z",
@@ -60,7 +62,8 @@ export const ELEMENT_DATA1: any = [
     position: 3,
     name: "Lithium",
     weight: 6.941,
-    symbol: "Li"
+    symbol: "Li",
+    autoComplete: "He"
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -68,7 +71,8 @@ export const ELEMENT_DATA1: any = [
     position: 4,
     name: "Beryllium",
     weight: 9.0122,
-    symbol: "Be"
+    symbol: "Be",
+    autoComplete: "He"
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -76,7 +80,8 @@ export const ELEMENT_DATA1: any = [
     position: 5,
     name: "Boron",
     weight: 10.811,
-    symbol: "B"
+    symbol: "B",
+    autoComplete: "He"
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -84,7 +89,8 @@ export const ELEMENT_DATA1: any = [
     position: 6,
     name: "Carbon",
     weight: 12.0107,
-    symbol: "C"
+    symbol: "C",
+    autoComplete: "He"
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -92,7 +98,8 @@ export const ELEMENT_DATA1: any = [
     position: 7,
     name: "Nitrogen",
     weight: 14.0067,
-    symbol: "N"
+    symbol: "N",
+    autoComplete: "He"
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -100,7 +107,8 @@ export const ELEMENT_DATA1: any = [
     position: 8,
     name: "Oxygen",
     weight: 15.9994,
-    symbol: "O"
+    symbol: "O",
+    autoComplete: "He"
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -108,7 +116,8 @@ export const ELEMENT_DATA1: any = [
     position: 9,
     name: "Fluorine",
     weight: 18.9984,
-    symbol: "F"
+    symbol: "F",
+    autoComplete: "He"
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -116,7 +125,8 @@ export const ELEMENT_DATA1: any = [
     position: 10,
     name: "Neon",
     weight: 20.1797,
-    symbol: "Ne"
+    symbol: "Ne",
+    autoComplete: "He"
   }
 ];
 
@@ -182,6 +192,14 @@ export const Column1 = [
     isEditable: true,
     width: 100,
     separator: true
+  },
+  {
+    name: "autoComplete",
+    title: "autoComplete",
+    type: ColumnType.AUTOCOMPLETE,
+    isEditable: true,
+    width: 100,
+    separator: true
   }
 ];
 
@@ -216,46 +234,16 @@ export const InlineConfig: TableConfig = {
 };
 
 export const autoCompleteData: DropDown[] = [
-  {
-    id: "H",
-    description: "Hydrogen"
-  },
-  {
-    id: "He",
-    description: "Helium"
-  },
-  {
-    id: "Li",
-    description: "Lithium"
-  },
-  {
-    id: "Be",
-    description: "Beryllium"
-  },
-  {
-    id: "B",
-    description: "Boron"
-  },
-  {
-    id: "C",
-    description: "Carbon"
-  },
-  {
-    id: "N",
-    description: "Nitrogen"
-  },
-  {
-    id: "O",
-    description: "Oxygen"
-  },
-  {
-    id: "F",
-    description: "Fluorine"
-  },
-  {
-    id: "Ne",
-    description: "Neon"
-  }
+  { id: "H", description: "Hydrogen" },
+  { id: "He", description: "Helium" },
+  { id: "Li", description: "Lithium" },
+  { id: "Be", description: "Beryllium" },
+  { id: "B", description: "Boron" },
+  { id: "C", description: "Carbon" },
+  { id: "N", description: "Nitrogen" },
+  { id: "O", description: "Oxygen" },
+  { id: "F", description: "" },
+  { id: "Ne", description: null }
 ];
 
 export const dataList = [

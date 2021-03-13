@@ -86,7 +86,7 @@
         <mat-icon [style.color]="action?.color ? action.color : '#808080'" class="icon-medium" [matTooltip]="action.toolTip"> {{action.iconName}} </mat-icon>
       </button>
 
-      <button mat-icon-button *ngIf="isDelete && selectedRowIndex !== rowIndex" (click)="inlineDeleteAction(element);">
+      <button mat-icon-button *ngIf="isDelete && selectedRowIndex !== rowIndex" (click)="inlineDeleteAction(element,rowIndex);">
         <mat-icon style="color:#ff0000;" class="icon-medium" matTooltip="Delete">delete</mat-icon>
       </button>
 

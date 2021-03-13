@@ -33,6 +33,9 @@ export class GridComponent {
   @Input() set updateRow(data: DirtyData) {
     this.updateSelectedRow(data);
   }
+  @Input() set deleteRow(data: any) {
+    this.deleteSelectedRow(data);
+  }
   @Input() set updateAutoComplete(data: AutoCompleteText){
     this.updateAutoCompleteFilterOption(data);
   }
@@ -144,6 +147,15 @@ export class GridComponent {
     this.table.renderRows();
   }
 
+  private deleteSelectedRow(data: any){
+    if(!data){
+      return;
+    }
+    this.dataSource.data.splice(data.rowIndex,1);
+        this.table.renderRows();
+
+  }
+
   rowOpen(rowIndex: number, data: any) {
     this.selectedRow = JSON.parse(JSON.stringify(data));
     this.initSelectedRowValToFormGrp();
@@ -194,8 +206,10 @@ export class GridComponent {
     this.onRowConfirm.emit(confirmData);
   }
 
-  inlineDeleteAction(data: any){
-    this.onRowDelete.emit(JSON.parse(JSON.stringify(data)));
+  inlineDeleteAction(data: any, index: number){
+    let emitData = JSON.parse(JSON.stringify(data));
+    emitData.rowIndex = index
+    this.onRowDelete.emit(emitData);
   }
 
   private getDirtyData() {
