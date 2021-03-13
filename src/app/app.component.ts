@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
-import { dataList } from "./data";
-import { Column, DirtyData, TableConfig } from "./grid/grid.model";
+import { autoCompleteData, dataList } from "./data";
+import { AutoCompleteText, Column, DirtyData, DropDown, TableConfig } from "./grid/grid.model";
 
 @Component({
   selector: "my-app",
@@ -18,7 +18,10 @@ export class AppComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   column: Array<Column>;
   tableConfig: TableConfig;
-  closeRow: any;
+  updateRow: any;
+
+  autoCompleteFilterOption = autoCompleteData;
+  updateAutoComplete:DropDown[];
   constructor() {}
 
   ngOnInit() {
@@ -44,10 +47,12 @@ export class AppComponent implements OnInit {
 
   onRowConfirm(data: DirtyData) {
     console.log(data);
-    this.closeRow = data;
+    this.updateRow = data;
   }
 
-  onAutoCompleteTextChange(data: string){
+  onAutoCompleteTextChange(data: AutoCompleteText){
     console.log(data);
+    let filterValue: string = data.text!.toLowerCase();
+    this.updateAutoComplete = this.autoCompleteFilterOption.filter(x=> x.id.toLowerCase().indexOf(filterValue) === 0 );
   }
 }

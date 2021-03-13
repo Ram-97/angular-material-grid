@@ -43,7 +43,7 @@
             <input matInput formControlName="{{column.name}}" [matAutocomplete]="auto">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               <mat-option *ngFor="let option of autoCompleteFilterOptions[column.name]" [value]="option">
-                {{option}}
+                {{option.description}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>

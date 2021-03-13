@@ -12,9 +12,9 @@ import {
   ColumnType,
   DirtyData,
   Action,
-  TableConfig, DropDown
+  TableConfig, DropDown, AutoCompleteText
 } from "./grid.model";
-import { debounceTime, take } from "rxjs/operators";
+import { debounceTime, filter } from "rxjs/operators";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -30,8 +30,11 @@ export class GridComponent {
   @Input() set config(data: TableConfig) {
     this.initTableConfig(data);
   }
-  @Input() set closeRow(data: DirtyData) {
-    this.closeSelectedRow(data);
+  @Input() set updateRow(data: DirtyData) {
+    this.updateSelectedRow(data);
+  }
+  @Input() set updateAutoComplete(data: AutoCompleteText){
+    this.updateAutoCompleteFilterOption(data);
   }
 
   @Output() onAction: EventEmitter<any> = new EventEmitter<any>();
@@ -39,7 +42,7 @@ export class GridComponent {
   @Output() onRowClose: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowConfirm: EventEmitter<DirtyData> = new EventEmitter<DirtyData>();
   @Output() onRowDelete: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onAutoCompleteTextChange: EventEmitter<string> = new EventEmitter<string>()
+  @Output() onAutoCompleteTextChange: EventEmitter<AutoCompleteText> = new EventEmitter<AutoCompleteText>()
 
   //Table
   columnMetaData: Array<Column>;
@@ -132,7 +135,7 @@ export class GridComponent {
     return [Validators.required];
   }
 
-  private closeSelectedRow(data: DirtyData) {
+  private updateSelectedRow(data: DirtyData) {
     if (!data) {
       return;
     }
@@ -157,9 +160,7 @@ export class GridComponent {
           value = this.selectedRow[col.name] ? new Date(this.selectedRow[col.name]) : null;
           break;
         case this.columnType.AUTOCOMPLETE:
-          this.autoCompleteFilterOptions[col.name] = new Array<DropDown>();
-          this.subscription=this.editableColFormGrp.get(col.name).valueChanges.pipe(
-            debounceTime(1000)).subscribe((data: string)=> this.onAutoCompleteTextChange.emit(data));
+          this.initAutoCompleteValue(col);
           break;
         default:
           value =this.selectedRow[col.name];
@@ -167,6 +168,20 @@ export class GridComponent {
       }
       this.editableColFormGrp.get(col.name).setValue(value,{emitEvent:false});
     });
+    if(Object.keys(this.editableColFormGrp.controls).length){
+      this.editableColFormGrp.markAllAsTouched();
+    }
+  }
+
+  private initAutoCompleteValue(col: Column){
+    this.autoCompleteFilterOptions[col.name] = new Array<DropDown>();
+    this.subscription=this.editableColFormGrp.get(col.name).valueChanges.pipe(debounceTime(1000),filter(x => !!x.trim()))   .subscribe((text: string)=> {
+      let data: AutoCompleteText = {
+        column: col.name,
+        text: text
+      }
+      this.onAutoCompleteTextChange.emit(data);
+      });
   }
 
   inlineEditAction(data: any, revert: boolean = false) {
@@ -205,29 +220,19 @@ export class GridComponent {
     return result;
   }
 
-  // private colTypeCheckForDirtyData(col: Column, data: any): boolean{
-  //   let isDirty: boolean = false;
-  //   switch(col.type){
-  //     case this.columnType.DATE:
-  //     case this.columnType.DATETIME:
-  //       if(this.editableColFormGrp.get(col.name).value){
-  //         if(!data[col.name]){
-  //           isDirty= true;
-  //         }else if (new Date(data[col.name]).toISOString() !== new Date(this.editableColFormGrp.get(col.name).value).toISOString()) {
-  //           isDirty = true;
-  //       }}
-  //       break;
-  //     default:
-  //       if (data[col.name] !== this.editableColFormGrp.get(col.name).value) {
-  //         isDirty = true;
-  //       }
-  //       break;
-  //   }
-  //     return isDirty;
-  // }
-
   omitSpecialChar(event: any){   
     let key = event.charCode; 
     return ((key > 47 && key < 58) || key == 45 || key == 46);
+  }
+
+  private updateAutoCompleteFilterOption(param: AutoCompleteText){
+    if(!param){
+      return;
+    }
+    this.autoCompleteFilterOptions[param.column] = param.data;
+  }
+
+  displayFn(event: any){
+    console.log(event);
   }
 }
