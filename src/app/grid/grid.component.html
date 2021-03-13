@@ -44,8 +44,9 @@
             <input matInput formControlName="{{column.name}}" [matAutocomplete]="auto">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="autoCompleteDisplayFn">
               <mat-option *ngFor="let option of autoCompleteFilterOptions[column.name]"
-                [matTooltip]="option?.description" [value]="option.id">
-                {{option.id}}
+                [matTooltip]="option?.description" [value]="option.id" class="normal-line-height">
+                <h2 class="no-margin">{{option.id}}</h2>
+                <p class="no-margin" [style.font-weight]="500">{{option?.description}}</p>
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -53,8 +54,13 @@
           <!--dropdown control-->
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.DROPDOWN" class="cell">
             <mat-select formControlName="{{column.name}}">
-              <mat-option *ngFor="let option of column!.cellOption!.dropDown" [matTooltip]="option?.description" [value]="option.id">
-                {{option.id}}
+              <mat-select-trigger>
+                {{editableColFormGrp.controls[column.name].value}}
+              </mat-select-trigger>
+              <mat-option *ngFor="let option of column!.cellOption!.dropDown" [matTooltip]="option?.description"
+                [value]="option.id" class="normal-line-height">
+                <h2 class="no-margin">{{option.id}}</h2>
+                <p class="no-margin" [style.font-weight]="500">{{option?.description}}</p>
               </mat-option>
             </mat-select>
           </mat-form-field>

@@ -23,10 +23,18 @@
 
 .grid-container .cell {
   width: 150px;
-  height: 50px;
+  height: 60px;
 }
 
-.grid-container .date-time-cell{
+.grid-container .date-time-cell {
   width: 210px;
-  height: 50px;
+  height: 60px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.normal-line-height {
+  line-height: normal !important;
 }
