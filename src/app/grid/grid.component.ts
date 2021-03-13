@@ -132,7 +132,9 @@ export class GridComponent {
 
   private getCellValidation(col: Column){
     if(col?.validation){
-      col!.validation.push(Validators.required)
+      if(col?.isRequired){
+        col!.validation.push(Validators.required)
+      }
       return col!.validation;
     }
     if(col?.isRequired){

@@ -38,3 +38,12 @@
 .normal-line-height {
   line-height: normal !important;
 }
+
+td.mat-cell {
+  padding: 0 5px;
+}
+
+// Background border
+.mat-checkbox .mat-checkbox-frame {
+  border: red;
+}

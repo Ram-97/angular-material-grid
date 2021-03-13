@@ -232,7 +232,8 @@ export const Column1 = [
     title: "checkbox",
     type: ColumnType.CHECKBOX,
     isEditable: true,
-    width: 100
+    width: 100,
+    validation:[Validators.requiredTrue]
   }
 ];
 
