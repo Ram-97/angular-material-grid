@@ -1,9 +1,9 @@
 import { ValidatorFn } from "@angular/forms";
 
 /**
-* Constant types for table column : 
-* TEXT, DATE, DATETIME, TEXTAREA, DROPDOWN, AUTOCOMPLETE, NUMBER, CHECKBOX
-*/
+ * Constant types for table column :
+ * TEXT, DATE, DATETIME, TEXTAREA, DROPDOWN, AUTOCOMPLETE, NUMBER, CHECKBOX
+ */
 export enum ColumnType {
   TEXT = "text",
   DATE = "date",
@@ -16,7 +16,7 @@ export enum ColumnType {
 }
 
 /**
- * Simple plain model which will used to configure the table 
+ * Simple plain model which will used to configure the table
  * @example
  * let tableConfig:TableConfig = {
  * inline: {
@@ -29,10 +29,9 @@ export interface TableConfig {
   inline?: Inline;
 }
 
-
 /**
  * Configure the inline actions of row in mat table. `isEdit` and `isDelete` members are default actions.
- * For defining the custom actions, use the `Options` member. 
+ * For defining the custom actions, use the `Options` member.
  */
 export interface Inline {
   isEdit: boolean;
@@ -63,18 +62,19 @@ export interface Column {
   isSortable?: boolean;
   isSticky?: boolean;
   separator?: boolean;
-  cellOption?:CellOption;
+  cellOption?: CellOption;
 }
 
-export interface CellOption{
-  date?:DateOption;
-  dateTime:DateOption;
-  validation?:ValidatorFn[];
+export interface CellOption {
+  date?: DateOption;
+  dateTime?: DateOption;
+  dropDown?: DropDown[];
+  validation?: ValidatorFn[];
 }
 
-export interface DateOption{
-  min?:Date,
-  max?:Date,
+export interface DateOption {
+  min?: Date;
+  max?: Date;
   showSeconds?: boolean;
   enableMeridian?: boolean;
 }
@@ -86,13 +86,13 @@ export interface DirtyData {
   dirtyFields: any;
 }
 
-export interface DropDown{
-  id: string,
-  description: string
+export interface DropDown {
+  id: string;
+  description: string;
 }
 
-export interface AutoCompleteText{
-  column: string,
-  text?: string,
-  data?: DropDown[]
+export interface AutoCompleteText {
+  column: string;
+  text?: string;
+  data?: DropDown[];
 }

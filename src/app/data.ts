@@ -37,6 +37,19 @@ export const Column = [
   }
 ];
 
+export const autoCompleteData: DropDown[] = [
+  { id: "H", description: "Hydrogen" },
+  { id: "He", description: "Helium" },
+  { id: "Li", description: "Lithium" },
+  { id: "Be", description: "Beryllium" },
+  { id: "B", description: "Boron" },
+  { id: "C", description: "Carbon" },
+  { id: "N", description: "Nitrogen" },
+  { id: "O", description: "Oxygen" },
+  { id: "F", description: "" },
+  { id: "Ne", description: null }
+];
+
 export const ELEMENT_DATA1: any = [
   {
     dateTime: "2021-03-09 20:30:00.000Z",
@@ -188,10 +201,13 @@ export const Column1 = [
   {
     name: "symbol",
     title: "symbol",
-    type: ColumnType.AUTOCOMPLETE,
+    type: ColumnType.DROPDOWN,
     isEditable: true,
     width: 100,
-    separator: true
+    separator: true,
+    cellOption: {
+      dropDown: autoCompleteData
+    }
   },
   {
     name: "autoComplete",
@@ -232,19 +248,6 @@ export const InlineConfig: TableConfig = {
     }
   }
 };
-
-export const autoCompleteData: DropDown[] = [
-  { id: "H", description: "Hydrogen" },
-  { id: "He", description: "Helium" },
-  { id: "Li", description: "Lithium" },
-  { id: "Be", description: "Beryllium" },
-  { id: "B", description: "Boron" },
-  { id: "C", description: "Carbon" },
-  { id: "N", description: "Nitrogen" },
-  { id: "O", description: "Oxygen" },
-  { id: "F", description: "" },
-  { id: "Ne", description: null }
-];
 
 export const dataList = [
   {

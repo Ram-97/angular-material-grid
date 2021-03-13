@@ -34,18 +34,29 @@
             <input matInput [ngxMatDatetimePicker]="picker1" formControlName="{{column.name}}"
               [min]="column?.cellOption?.dateTime?.min" [max]="column?.cellOption?.dateTime?.max" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <ngx-mat-datetime-picker #picker1 [showSeconds]="column?.cellOption?.dateTime?.showSeconds" [enableMeridian]="column?.cellOption?.dateTime?.enableMeridian">
+            <ngx-mat-datetime-picker #picker1 [showSeconds]="column?.cellOption?.dateTime?.showSeconds"
+              [enableMeridian]="column?.cellOption?.dateTime?.enableMeridian">
             </ngx-mat-datetime-picker>
           </mat-form-field>
 
           <!--autocomplete control-->
-          <mat-form-field appearance="outline" *ngSwitchCase="columnType.AUTOCOMPLETE">
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.AUTOCOMPLETE" class="cell">
             <input matInput formControlName="{{column.name}}" [matAutocomplete]="auto">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="autoCompleteDisplayFn">
-              <mat-option *ngFor="let option of autoCompleteFilterOptions[column.name]" [matTooltip]="option?.description" [value]="option.id">
+              <mat-option *ngFor="let option of autoCompleteFilterOptions[column.name]"
+                [matTooltip]="option?.description" [value]="option.id">
                 {{option.id}}
               </mat-option>
             </mat-autocomplete>
+          </mat-form-field>
+
+          <!--dropdown control-->
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.DROPDOWN" class="cell">
+            <mat-select formControlName="{{column.name}}">
+              <mat-option *ngFor="let option of column!.cellOption!.dropDown" [matTooltip]="option?.description" [value]="option.id">
+                {{option.id}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <!--default control-->
