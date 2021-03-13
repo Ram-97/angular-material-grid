@@ -161,7 +161,6 @@ export class GridComponent {
           break;
         case this.columnType.AUTOCOMPLETE:
           this.initAutoCompleteValue(col);
-          break;
         default:
           value =this.selectedRow[col.name];
           break;
@@ -232,7 +231,7 @@ export class GridComponent {
     this.autoCompleteFilterOptions[param.column] = param.data;
   }
 
-  displayFn(event: any){
-    console.log(event);
+  autoCompleteDisplayFn(event: any){
+    return (!event) ? "" : event;
   }
 }

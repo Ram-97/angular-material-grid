@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   updateRow: any;
 
   autoCompleteFilterOption = autoCompleteData;
-  updateAutoComplete:DropDown[];
+  updateAutoComplete:AutoCompleteText;
   constructor() {}
 
   ngOnInit() {
@@ -51,8 +51,10 @@ export class AppComponent implements OnInit {
   }
 
   onAutoCompleteTextChange(data: AutoCompleteText){
-    console.log(data);
     let filterValue: string = data.text!.toLowerCase();
-    this.updateAutoComplete = this.autoCompleteFilterOption.filter(x=> x.id.toLowerCase().indexOf(filterValue) === 0 );
+    this.updateAutoComplete = {
+      column:data.column,
+      data:this.autoCompleteFilterOption.filter(x=> x.id.toLowerCase().indexOf(filterValue) === 0 )
+    }
   }
 }

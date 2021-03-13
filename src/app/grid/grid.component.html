@@ -41,9 +41,9 @@
           <!--autocomplete control-->
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.AUTOCOMPLETE">
             <input matInput formControlName="{{column.name}}" [matAutocomplete]="auto">
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of autoCompleteFilterOptions[column.name]" [value]="option">
-                {{option.description}}
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="autoCompleteDisplayFn">
+              <mat-option *ngFor="let option of autoCompleteFilterOptions[column.name]" [matTooltip]="option?.description" [value]="option.id">
+                {{option.id}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
