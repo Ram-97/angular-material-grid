@@ -161,6 +161,7 @@ export const Column1 = [
     width: 100,
     separator: true,
     isEditable: true,
+    isRequired:true,
     cellOption: {
       dateTime: {
         min: new Date(2021, 0, 1),
@@ -176,6 +177,7 @@ export const Column1 = [
     width: 100,
     separator: true,
     isEditable: true,
+        isRequired:true,
     cellOption: {
       date: {
         min: new Date(2021, 0, 1),
@@ -198,9 +200,7 @@ export const Column1 = [
     isEditable: true,
     width: 100,
     separator: true,
-    cellOption: {
-      validation: [Validators.email]
-    }
+    validation: [Validators.email,Validators.required]
   },
   {
     name: "weight",
@@ -232,8 +232,7 @@ export const Column1 = [
     title: "checkbox",
     type: ColumnType.CHECKBOX,
     isEditable: true,
-    width: 100,
-    separator: true
+    width: 100
   }
 ];
 

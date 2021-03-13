@@ -57,19 +57,19 @@ export interface Column {
   title: string;
   type?: string;
   width?: number;
-  isVisible?: boolean;
   isEditable?: boolean;
-  isSortable?: boolean;
-  isSticky?: boolean;
   separator?: boolean;
   cellOption?: CellOption;
+  isRequired?: boolean;
+  validation?: ValidatorFn[];
+  // isSortable?: boolean;
+  // isSticky?: boolean;
 }
 
 export interface CellOption {
   date?: DateOption;
   dateTime?: DateOption;
   dropDown?: DropDown[];
-  validation?: ValidatorFn[];
 }
 
 export interface DateOption {

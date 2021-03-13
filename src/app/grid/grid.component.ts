@@ -130,12 +130,15 @@ export class GridComponent {
     },[]);    
   }
 
-  private getCellValidation(col: Column): ValidatorFn[]{
-    if(col?.cellOption?.validation){
-      col!.cellOption!.validation.push(Validators.required)
-      return col!.cellOption!.validation;
+  private getCellValidation(col: Column){
+    if(col?.validation){
+      col!.validation.push(Validators.required)
+      return col!.validation;
     }
-    return [Validators.required];
+    if(col?.isRequired){
+      return [Validators.required];
+    }
+    return;
   }
 
   private updateSelectedRow(data: DirtyData) {
