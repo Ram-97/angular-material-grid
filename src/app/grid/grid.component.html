@@ -12,18 +12,76 @@
 
       <ng-template #controls>
         <ng-container [ngSwitch]="column?.type" [formGroup]="editableColFormGrp">
-          <mat-form-field appearance="outline" *ngSwitchCase="columnType.TEXT">
+          <!--text Control-->
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.TEXT" class="cell">
             <input matInput formControlName="{{column.name}}" required>
           </mat-form-field>
-          <mat-form-field appearance="outline" *ngSwitchCase="columnType.NUMBER">
+
+          <!--number Control-->
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.NUMBER" class="cell">
             <input matInput type="number" formControlName="{{column.name}}" (keypress)="omitSpecialChar($event);" required>
           </mat-form-field>
-          <mat-form-field appearance="outline" *ngSwitchCase="columnType.DATE">
-            <input matInput [matDatepicker]="picker" formControlName="{{column.name}}" readonly>
+
+          <!--date Control-->
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.DATE" class="cell">
+            <input matInput [matDatepicker]="picker" formControlName="{{column.name}}" [min]="column?.date?.min" [max]="column?.date?.max" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-          <mat-form-field appearance="outline" *ngSwitchDefault>
+
+          <!--date time control -->
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.DATETIME" class="date-time-cell">
+            <input matInput [ngxMatDatetimePicker]="picker1" formControlName="{{column.name}}"
+              [min]="column?.dateTime?.min" [max]="column?.dateTime?.max" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker1 [showSeconds]="column?.dateTime?.showSeconds"
+              [enableMeridian]="column?.dateTime?.enableMeridian">
+            </ngx-mat-datetime-picker>
+          </mat-form-field>
+
+          <!--autocomplete control-->
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.AUTOCOMPLETE" class="cell">
+            <input matInput formControlName="{{column.name}}" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="autoCompleteDisplayFn">
+              <mat-option *ngFor="let option of autoCompleteFilterOptions[column.name]"
+                [matTooltip]="option?.description" [value]="option.id" class="normal-line-height">
+                <h2 class="no-margin">{{option.id}}</h2>
+                <p class="no-margin" [style.font-weight]="500">{{option?.description}}</p>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <!--dropdown control-->
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.DROPDOWN" class="cell">
+            <mat-select formControlName="{{column.name}}">
+              <mat-select-trigger>
+                {{editableColFormGrp.controls[column.name].value}}
+              </mat-select-trigger>
+              <mat-option *ngFor="let option of column!.dropDown" [matTooltip]="option?.description" [value]="option.id"
+                class="normal-line-height">
+                <h2 class="no-margin">{{option.id}}</h2>
+                <p class="no-margin" [style.font-weight]="500">{{option?.description}}</p>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!--checkbox control-->
+          <mat-checkbox formControlName="{{column.name}}" color="primary" *ngSwitchCase="columnType.CHECKBOX"
+            [ngClass]="{'not-active':editableColFormGrp.hasError('required',column.name)}">
+          </mat-checkbox>
+
+          <!--slide control-->
+          <mat-slide-toggle formControlName="{{column.name}}" color="primary" *ngSwitchCase="columnType.SLIDE"
+            [ngClass]="{'not-active':editableColFormGrp.hasError('required',column.name)}">
+          </mat-slide-toggle>
+
+          <!--textarea control-->
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.TEXTAREA" class="text-area-cell" [style.height.px]="!column?.enableResize ? 75 : ''">
+            <textarea matInput formControlName="{{column.name}}" [ngClass]="{'no-resize':!column?.enableResize}"></textarea>
+          </mat-form-field>
+
+          <!--default control-->
+          <mat-form-field appearance="outline" *ngSwitchDefault class="cell">
             <input matInput formControlName="{{column.name}}" required>
           </mat-form-field>
         </ng-container>
@@ -47,10 +105,10 @@
       </button>
 
       <ng-template #editRow>
-        <button mat-icon-button (click)="inlineDefaultActions(element);" [disabled]="!this.editableColFormGrp.valid" [ngClass]="{disable: !this.editableColFormGrp.valid}">
+        <button mat-icon-button (click)="inlineEditAction(element);" [disabled]="!this.editableColFormGrp.valid" [ngClass]="{disable: !this.editableColFormGrp.valid}">
           <mat-icon style="color:#808080;" class="icon-medium" [ngClass]="{confirm:this.editableColFormGrp.valid}" matTooltip="Confirm">check</mat-icon>
         </button>
-        <button mat-icon-button (click)="inlineDefaultActions(element,hasCancel);">
+        <button mat-icon-button (click)="inlineEditAction(element,hasCancel);">
           <mat-icon style="color:#808080;" class="icon-medium" matTooltip="Cancel">close</mat-icon>
         </button>
       </ng-template>
@@ -60,7 +118,7 @@
         <mat-icon [style.color]="action?.color ? action.color : '#808080'" class="icon-medium" [matTooltip]="action.toolTip"> {{action.iconName}} </mat-icon>
       </button>
 
-      <button mat-icon-button *ngIf="isDelete && selectedRowIndex !== rowIndex" (click)="inlineDefaultActions(element);">
+      <button mat-icon-button *ngIf="isDelete && selectedRowIndex !== rowIndex" (click)="inlineDeleteAction(element,rowIndex);">
         <mat-icon style="color:#ff0000;" class="icon-medium" matTooltip="Delete">delete</mat-icon>
       </button>
 

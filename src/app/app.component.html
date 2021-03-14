@@ -7,5 +7,17 @@
   </mat-select>
 </mat-form-field>
 
-<grid [dataSource]="dataSource" [column]="column" [config]="tableConfig" [closeRow]="closeRow"
-  (onAction)="message($event)" (onRowOpen)="message($event)" (onRowClose)="onRowClose($event)"></grid>
+<grid 
+  [dataSource]="dataSource" 
+  [column]="column" 
+  [config]="tableConfig" 
+  [updateRow]="updateRow"
+  (onAction)="message($event)" 
+  (onRowOpen)="message($event)" 
+  (onRowClose)="message($event)" 
+  (onRowConfirm)="onRowConfirm($event)"
+  [deleteRow]="deleteRow" 
+  (onRowDelete)="onRowDelete($event)" 
+  [updateAutoComplete]="updateAutoComplete"
+  (onAutoCompleteTextChange)="onAutoCompleteTextChange($event)">
+  </grid>

@@ -12,8 +12,10 @@ import {
   ColumnType,
   DirtyData,
   Action,
-  TableConfig
+  TableConfig, DropDown, AutoCompleteText
 } from "./grid.model";
+import { debounceTime, filter } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "grid",
@@ -28,13 +30,22 @@ export class GridComponent {
   @Input() set config(data: TableConfig) {
     this.initTableConfig(data);
   }
-  @Input() set closeRow(data: DirtyData) {
-    this.closeSelectedRow(data);
+  @Input() set updateRow(data: DirtyData) {
+    this.updateSelectedRow(data);
+  }
+  @Input() set deleteRow(data: any) {
+    this.deleteSelectedRow(data);
+  }
+  @Input() set updateAutoComplete(data: AutoCompleteText){
+    this.updateAutoCompleteFilterOption(data);
   }
 
   @Output() onAction: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowOpen: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowClose: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onRowConfirm: EventEmitter<DirtyData> = new EventEmitter<DirtyData>();
+  @Output() onRowDelete: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onAutoCompleteTextChange: EventEmitter<AutoCompleteText> = new EventEmitter<AutoCompleteText>()
 
   //Table
   columnMetaData: Array<Column>;
@@ -51,13 +62,21 @@ export class GridComponent {
 
   //Incell Confirm Action
   editableColFormGrp: FormGroup;
-  private editableColName: string[];
+  private editableColumn: Column[];
 
   //Incell
   selectedRowIndex: number = -1;
   private selectedRow: any;
   hasCancel: boolean = true;
   @ViewChild(MatTable) table: MatTable<any>;
+
+  //Incell Autocomplete
+  autoCompleteFilterOptions: any = {};
+  private subscription: Subscription = new Subscription;
+
+  //Incell regex exp
+  nonWhitespaceRegExp: RegExp = new RegExp("\\S");
+
 
   constructor() {}
 
@@ -105,16 +124,30 @@ export class GridComponent {
 
   private getEditableColFromMetaData(){
     this.editableColFormGrp = new FormGroup({});
-    this.editableColName = this.columnMetaData.reduce((acc: string[],col: Column)=>{
+    this.editableColumn = this.columnMetaData.reduce((acc: Column[],col: Column)=>{
       if(col?.isEditable){
-        this.editableColFormGrp.addControl(col.name, new FormControl(null,Validators.required));
-        acc.push(col.name);
+        this.editableColFormGrp.addControl(col.name, new FormControl(null,this.getCellValidation(col)));
+        acc.push(col);
       }
       return acc;
-    },[]);
+    },[]);    
   }
 
-  private closeSelectedRow(data: DirtyData) {
+  private getCellValidation(col: Column){
+    if(col?.validation){
+      if(col?.isRequired){
+        col!.validation.push(Validators.required);
+        col!.validation.push(Validators.pattern(this.nonWhitespaceRegExp));
+      }
+      return col!.validation;
+    }
+    if(col?.isRequired){
+      return [Validators.required,Validators.pattern(this.nonWhitespaceRegExp)];
+    }
+    return;
+  }
+
+  private updateSelectedRow(data: DirtyData) {
     if (!data) {
       return;
     }
@@ -123,38 +156,93 @@ export class GridComponent {
     this.table.renderRows();
   }
 
+  private deleteSelectedRow(data: any){
+    if(!data){
+      return;
+    }
+    this.dataSource.data.splice(data.rowIndex,1);
+        this.table.renderRows();
+
+  }
+
   rowOpen(rowIndex: number, data: any) {
-    this.selectedRowIndex = rowIndex;
     this.selectedRow = JSON.parse(JSON.stringify(data));
     this.initSelectedRowValToFormGrp();
-    this.onRowOpen.emit(data);
+    this.selectedRowIndex = rowIndex;
+    this.onRowOpen.emit(JSON.parse(JSON.stringify(data)));
   }
 
   private initSelectedRowValToFormGrp(){
-    this.editableColName.forEach((key: string)=>{
-      this.editableColFormGrp.get(key).setValue(this.selectedRow[key]);
+    this.editableColumn.forEach((col: Column)=>{
+      let value : any;
+      switch(col.type){
+        case this.columnType.DATE:
+        case this.columnType.DATETIME:
+          value = this.selectedRow[col.name] ? new Date(this.selectedRow[col.name]) : null;
+          break;
+        case this.columnType.SLIDE:
+        case this.columnType.CHECKBOX:
+          value = this.initCheckBoxOrSlideValue(col);
+          break;
+        case this.columnType.AUTOCOMPLETE:
+          this.initAutoCompleteValue(col);
+        default:
+          value =this.selectedRow[col.name];
+          break;
+      }
+      this.editableColFormGrp.get(col.name).setValue(value,{emitEvent:false});
     });
+    if(Object.keys(this.editableColFormGrp.controls).length){
+      this.editableColFormGrp.markAllAsTouched();
+    }
   }
 
-  inlineDefaultActions(data: any, revert: boolean = false) {
-    let confirmData = this.getDirtyData(data);
-    if (!confirmData) {
-      this.selectedRowIndex = -1;
-      return;
-    }
-    if (revert) {
-      this.selectedRowIndex = -1;
-      return;
-    }
-    this.onRowClose.emit(confirmData);
+  private initAutoCompleteValue(col: Column){
+    this.autoCompleteFilterOptions[col.name] = new Array<DropDown>();
+    this.subscription=this.editableColFormGrp.get(col.name).valueChanges.pipe(debounceTime(1000),filter(x => !!x.trim()))   .subscribe((text: string)=> {
+      let data: AutoCompleteText = {
+        column: col.name,
+        text: text
+      }
+      this.onAutoCompleteTextChange.emit(data);
+      });
   }
 
-  private getDirtyData(data: any) {
+  private initCheckBoxOrSlideValue(col: Column){
+    let val: any = this.selectedRow[col.name];
+    if(col?.enableBit){
+      this.subscription=this.editableColFormGrp.get(col.name).valueChanges.subscribe((data: any)=> {
+        val= data ? 1 : 0;
+        this.editableColFormGrp.get(col.name).setValue(val,{emitEvent:false});
+      });
+    }
+    return val;
+  }
+
+  inlineEditAction(data: any, revert: boolean = false) {
+    this.subscription.unsubscribe();
+    let confirmData = this.getDirtyData();
+    if (!confirmData || revert) {
+      this.selectedRowIndex = -1;
+      this.onRowClose.emit(JSON.parse(JSON.stringify(data)));
+      return;
+    }
+    this.onRowConfirm.emit(confirmData);
+  }
+
+  inlineDeleteAction(data: any, index: number){
+    let emitData = JSON.parse(JSON.stringify(data));
+    emitData.rowIndex = index
+    this.onRowDelete.emit(emitData);
+  }
+
+  private getDirtyData() {
     let result: DirtyData = {} as DirtyData;
-    let dirtyFields = this.editableColName.reduce((acc: any, key: string) => {
-      if (data[key] !== this.editableColFormGrp.get(key).value) {
-        this.selectedRow[key] = this.editableColFormGrp.get(key).value;
-        acc[key] = this.selectedRow[key];
+    let dirtyFields = this.editableColumn.reduce((acc: any, col: Column) => {
+      if(this.editableColFormGrp.get(col.name).dirty){
+        this.selectedRow[col.name] = this.editableColFormGrp.get(col.name).value;
+        acc[col.name] = this.selectedRow[col.name];
+        this.editableColFormGrp.get(col.name).reset(this.selectedRow[col.name],{emitEvent:false});
       }
       return acc;
     }, {});
@@ -172,5 +260,16 @@ export class GridComponent {
   omitSpecialChar(event: any){   
     let key = event.charCode; 
     return ((key > 47 && key < 58) || key == 45 || key == 46);
+  }
+
+  private updateAutoCompleteFilterOption(param: AutoCompleteText){
+    if(!param){
+      return;
+    }
+    this.autoCompleteFilterOptions[param.column] = param.data;
+  }
+
+  autoCompleteDisplayFn(event: any){
+    return (!event) ? "" : event;
   }
 }

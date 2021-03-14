@@ -20,3 +20,42 @@
 .grid-container .confirm {
   color: green !important;
 }
+
+.grid-container .cell {
+  width: 150px;
+  height: 60px;
+}
+
+.grid-container .date-time-cell {
+  width: 210px;
+  height: 60px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.normal-line-height {
+  line-height: normal !important;
+}
+
+td.mat-cell {
+  padding: 0 5px;
+}
+
+.grid-container ::ng-deep .not-active .mat-checkbox-frame {
+  border-color: red;
+}
+
+.grid-container ::ng-deep .not-active .mat-slide-toggle-thumb {
+  background-color: red;
+}
+
+.grid-container .no-resize {
+  resize: none;
+}
+
+.grid-container .text-area-cell {
+  width: 250px;
+  /* height: 75px; */
+}

@@ -7,7 +7,12 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatInputModule } from "@angular/material/input";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { MatNativeDateModule } from "@angular/material/core";
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CommonModule} from '@angular/common';
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
 
@@ -22,6 +27,11 @@ import { FormsModule,ReactiveFormsModule } from "@angular/forms";
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxMatDatetimePickerModule,
+    NgxMatMomentModule,
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule
@@ -36,6 +46,10 @@ import { FormsModule,ReactiveFormsModule } from "@angular/forms";
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxMatDatetimePickerModule,
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule
