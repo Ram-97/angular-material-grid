@@ -233,7 +233,12 @@ export const Column1 = [
     type: ColumnType.CHECKBOX,
     isEditable: true,
     width: 100,
-    isRequired: true
+    isRequired: true,
+    cellOption:{
+      checkbox:{
+        bit:true
+      }
+    }
   }
 ];
 

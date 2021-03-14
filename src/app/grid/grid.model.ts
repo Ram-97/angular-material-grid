@@ -70,6 +70,7 @@ export interface CellOption {
   date?: DateOption;
   dateTime?: DateOption;
   dropDown?: DropDown[];
+  checkbox?: CheckBoxOption;
 }
 
 export interface DateOption {
@@ -77,6 +78,10 @@ export interface DateOption {
   max?: Date;
   showSeconds?: boolean;
   enableMeridian?: boolean;
+}
+
+export interface CheckBoxOption{
+  bit?:boolean;
 }
 
 // Data Model

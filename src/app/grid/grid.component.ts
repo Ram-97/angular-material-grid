@@ -176,6 +176,9 @@ export class GridComponent {
         case this.columnType.DATETIME:
           value = this.selectedRow[col.name] ? new Date(this.selectedRow[col.name]) : null;
           break;
+        case this.columnType.CHECKBOX:
+          value = this.initCheckBoxValue(col);
+          break;
         case this.columnType.AUTOCOMPLETE:
           this.initAutoCompleteValue(col);
         default:
@@ -198,6 +201,17 @@ export class GridComponent {
       }
       this.onAutoCompleteTextChange.emit(data);
       });
+  }
+
+  private initCheckBoxValue(col: Column){
+    let val: any = this.selectedRow[col.name];
+    if(col?.cellOption?.checkbox?.bit){
+      this.subscription=this.editableColFormGrp.get(col.name).valueChanges.subscribe((data: any)=> {
+        val= data ? 1 : 0;
+        this.editableColFormGrp.get(col.name).setValue(val,{emitEvent:false});
+      });
+    }
+    return val;
   }
 
   inlineEditAction(data: any, revert: boolean = false) {
