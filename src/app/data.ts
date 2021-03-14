@@ -60,7 +60,8 @@ export const ELEMENT_DATA1: any = [
     symbol: "H",
     autoComplete: "He",
     checkbox: null,
-    slide: null
+    slide: null,
+    textArea: null
   },
   {
     dateTime: "",
@@ -71,7 +72,8 @@ export const ELEMENT_DATA1: any = [
     symbol: "He",
     autoComplete: "",
     checkbox: 1,
-    slide: 1
+    slide: 1,
+    textArea: undefined
   },
   {
     dateTime: "2021-03-09 21:30:00.000Z",
@@ -82,7 +84,9 @@ export const ELEMENT_DATA1: any = [
     symbol: "Li",
     autoComplete: "He",
     checkbox: true,
-    slide: true
+    slide: true,
+    textArea:
+      "noun. a statement, picture in words, or account that describes; descriptive representation. the act or method of describing. sort; kind; variety: dogs of every description."
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -93,7 +97,8 @@ export const ELEMENT_DATA1: any = [
     symbol: "Be",
     autoComplete: "He",
     checkbox: 0,
-    slide: 0
+    slide: 0,
+    textArea: ""
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -104,7 +109,8 @@ export const ELEMENT_DATA1: any = [
     symbol: "B",
     autoComplete: "He",
     checkbox: false,
-    slide: false
+    slide: false,
+    textArea: ""
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -115,7 +121,8 @@ export const ELEMENT_DATA1: any = [
     symbol: "C",
     autoComplete: "He",
     checkbox: null,
-    slide: false
+    slide: false,
+    textArea: ""
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -126,7 +133,8 @@ export const ELEMENT_DATA1: any = [
     symbol: "N",
     autoComplete: "He",
     checkbox: null,
-    slide: false
+    slide: false,
+    textArea: ""
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -137,7 +145,8 @@ export const ELEMENT_DATA1: any = [
     symbol: "O",
     autoComplete: "He",
     checkbox: null,
-    slide: false
+    slide: false,
+    textArea: ""
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -148,7 +157,8 @@ export const ELEMENT_DATA1: any = [
     symbol: "F",
     autoComplete: "He",
     checkbox: null,
-    slide: false
+    slide: false,
+    textArea: ""
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -159,7 +169,8 @@ export const ELEMENT_DATA1: any = [
     symbol: "Ne",
     autoComplete: "He",
     checkbox: null,
-    slide: false
+    slide: false,
+    textArea: ""
   }
 ];
 
@@ -229,7 +240,8 @@ export const Column1 = [
     type: ColumnType.AUTOCOMPLETE,
     isEditable: true,
     width: 100,
-    separator: true
+    separator: true,
+    isRequired: true
   },
   {
     name: "checkbox",
@@ -249,6 +261,15 @@ export const Column1 = [
     width: 100,
     isRequired: true,
     enableBit: true
+  },
+  {
+    name: "textArea",
+    title: "textArea",
+    type: ColumnType.TEXTAREA,
+    isEditable: true,
+    width: 300,
+    isRequired: true,
+    enableResize: true
   }
 ];
 

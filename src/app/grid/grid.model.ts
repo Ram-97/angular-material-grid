@@ -71,6 +71,7 @@ export interface CellOption {
   dateTime?: DateOption;
   dropDown?: DropDown[];
   enableBit?: boolean;
+  enableResize?:boolean;
 }
 
 export interface DateOption {

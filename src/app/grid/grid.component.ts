@@ -5,7 +5,7 @@ import {
   Output,
   ViewChild
 } from "@angular/core";
-import { FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import {
   Column,
@@ -74,6 +74,9 @@ export class GridComponent {
   autoCompleteFilterOptions: any = {};
   private subscription: Subscription = new Subscription;
 
+  //Incell regex exp
+  nonWhitespaceRegExp: RegExp = new RegExp("\\S");
+
 
   constructor() {}
 
@@ -133,12 +136,13 @@ export class GridComponent {
   private getCellValidation(col: Column){
     if(col?.validation){
       if(col?.isRequired){
-        col!.validation.push(Validators.required)
+        col!.validation.push(Validators.required);
+        col!.validation.push(Validators.pattern(this.nonWhitespaceRegExp));
       }
       return col!.validation;
     }
     if(col?.isRequired){
-      return [Validators.required];
+      return [Validators.required,Validators.pattern(this.nonWhitespaceRegExp)];
     }
     return;
   }

@@ -57,8 +57,8 @@
               <mat-select-trigger>
                 {{editableColFormGrp.controls[column.name].value}}
               </mat-select-trigger>
-              <mat-option *ngFor="let option of column!.dropDown" [matTooltip]="option?.description"
-                [value]="option.id" class="normal-line-height">
+              <mat-option *ngFor="let option of column!.dropDown" [matTooltip]="option?.description" [value]="option.id"
+                class="normal-line-height">
                 <h2 class="no-margin">{{option.id}}</h2>
                 <p class="no-margin" [style.font-weight]="500">{{option?.description}}</p>
               </mat-option>
@@ -71,8 +71,14 @@
           </mat-checkbox>
 
           <!--slide control-->
-          <mat-slide-toggle formControlName="{{column.name}}" color="primary" *ngSwitchCase="columnType.SLIDE" [ngClass]="{'not-active':editableColFormGrp.hasError('required',column.name)}">
+          <mat-slide-toggle formControlName="{{column.name}}" color="primary" *ngSwitchCase="columnType.SLIDE"
+            [ngClass]="{'not-active':editableColFormGrp.hasError('required',column.name)}">
           </mat-slide-toggle>
+
+          <!--textarea control-->
+          <mat-form-field appearance="outline" *ngSwitchCase="columnType.TEXTAREA" class="text-area-cell" [style.height.px]="!column?.enableResize ? 75 : ''">
+            <textarea matInput formControlName="{{column.name}}" [ngClass]="{'no-resize':!column?.enableResize}"></textarea>
+          </mat-form-field>
 
           <!--default control-->
           <mat-form-field appearance="outline" *ngSwitchDefault class="cell">
