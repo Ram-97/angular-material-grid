@@ -233,7 +233,7 @@ export const Column1 = [
     type: ColumnType.CHECKBOX,
     isEditable: true,
     width: 100,
-    validation:[Validators.requiredTrue]
+    isRequired: true
   }
 ];
 

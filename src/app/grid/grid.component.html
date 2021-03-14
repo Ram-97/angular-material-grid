@@ -66,7 +66,8 @@
           </mat-form-field>
 
           <!--checkbox control-->
-          <mat-checkbox formControlName="{{column.name}}" *ngSwitchCase="columnType.CHECKBOX" color="primary">
+          <mat-checkbox formControlName="{{column.name}}" color="primary" *ngSwitchCase="columnType.CHECKBOX"
+            [ngClass]="{'not-active':editableColFormGrp.hasError('required',column.name)}">
           </mat-checkbox>
 
           <!--default control-->

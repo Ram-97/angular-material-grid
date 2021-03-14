@@ -43,7 +43,6 @@ td.mat-cell {
   padding: 0 5px;
 }
 
-// Background border
-.mat-checkbox .mat-checkbox-frame {
-  border: red;
+.grid-container ::ng-deep .not-active .mat-checkbox-frame{
+  border-color: red;
 }
