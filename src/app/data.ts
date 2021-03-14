@@ -59,7 +59,8 @@ export const ELEMENT_DATA1: any = [
     weight: 1.0079,
     symbol: "H",
     autoComplete: "He",
-    checkbox: null
+    checkbox: null,
+    slide: null
   },
   {
     dateTime: "",
@@ -69,7 +70,8 @@ export const ELEMENT_DATA1: any = [
     weight: 4.0026,
     symbol: "He",
     autoComplete: "",
-    checkbox: 1
+    checkbox: 1,
+    slide: 1
   },
   {
     dateTime: "2021-03-09 21:30:00.000Z",
@@ -79,7 +81,8 @@ export const ELEMENT_DATA1: any = [
     weight: 6.941,
     symbol: "Li",
     autoComplete: "He",
-    checkbox: true
+    checkbox: true,
+    slide: true
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -89,7 +92,8 @@ export const ELEMENT_DATA1: any = [
     weight: 9.0122,
     symbol: "Be",
     autoComplete: "He",
-    checkbox: 0
+    checkbox: 0,
+    slide: 0
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -99,7 +103,8 @@ export const ELEMENT_DATA1: any = [
     weight: 10.811,
     symbol: "B",
     autoComplete: "He",
-    checkbox: false
+    checkbox: false,
+    slide: false
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -109,7 +114,8 @@ export const ELEMENT_DATA1: any = [
     weight: 12.0107,
     symbol: "C",
     autoComplete: "He",
-    checkbox: null
+    checkbox: null,
+    slide: false
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -119,7 +125,8 @@ export const ELEMENT_DATA1: any = [
     weight: 14.0067,
     symbol: "N",
     autoComplete: "He",
-    checkbox: null
+    checkbox: null,
+    slide: false
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -129,7 +136,8 @@ export const ELEMENT_DATA1: any = [
     weight: 15.9994,
     symbol: "O",
     autoComplete: "He",
-    checkbox: null
+    checkbox: null,
+    slide: false
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -139,7 +147,8 @@ export const ELEMENT_DATA1: any = [
     weight: 18.9984,
     symbol: "F",
     autoComplete: "He",
-    checkbox: null
+    checkbox: null,
+    slide: false
   },
   {
     dateTime: "2021-03-09 18:30:00.000Z",
@@ -149,7 +158,8 @@ export const ELEMENT_DATA1: any = [
     weight: 20.1797,
     symbol: "Ne",
     autoComplete: "He",
-    checkbox: null
+    checkbox: null,
+    slide: false
   }
 ];
 
@@ -161,13 +171,11 @@ export const Column1 = [
     width: 100,
     separator: true,
     isEditable: true,
-    isRequired:true,
-    cellOption: {
-      dateTime: {
-        min: new Date(2021, 0, 1),
-        max: new Date(2021, 12, 0),
-        showSeconds: true
-      }
+    isRequired: true,
+    dateTime: {
+      min: new Date(2021, 0, 1),
+      max: new Date(2021, 12, 0),
+      showSeconds: true
     }
   },
   {
@@ -177,12 +185,10 @@ export const Column1 = [
     width: 100,
     separator: true,
     isEditable: true,
-        isRequired:true,
-    cellOption: {
-      date: {
-        min: new Date(2021, 0, 1),
-        max: new Date(2021, 12, 0)
-      }
+    isRequired: true,
+    date: {
+      min: new Date(2021, 0, 1),
+      max: new Date(2021, 12, 0)
     }
   },
   {
@@ -200,7 +206,7 @@ export const Column1 = [
     isEditable: true,
     width: 100,
     separator: true,
-    validation: [Validators.email,Validators.required]
+    validation: [Validators.email, Validators.required]
   },
   {
     name: "weight",
@@ -215,9 +221,7 @@ export const Column1 = [
     isEditable: true,
     width: 100,
     separator: true,
-    cellOption: {
-      dropDown: autoCompleteData
-    }
+    dropDown: autoCompleteData
   },
   {
     name: "autoComplete",
@@ -233,12 +237,18 @@ export const Column1 = [
     type: ColumnType.CHECKBOX,
     isEditable: true,
     width: 100,
+    separator: true,
     isRequired: true,
-    cellOption:{
-      checkbox:{
-        bit:true
-      }
-    }
+    enableBit: true
+  },
+  {
+    name: "slide",
+    title: "slide",
+    type: ColumnType.SLIDE,
+    isEditable: true,
+    width: 100,
+    isRequired: true,
+    enableBit: true
   }
 ];
 

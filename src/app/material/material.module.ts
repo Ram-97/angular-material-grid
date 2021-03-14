@@ -12,6 +12,7 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
 import { MatNativeDateModule } from "@angular/material/core";
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CommonModule} from '@angular/common';
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
 
@@ -30,6 +31,7 @@ import { FormsModule,ReactiveFormsModule } from "@angular/forms";
     NgxMatMomentModule,
     MatAutocompleteModule,
     MatCheckboxModule,
+    MatSlideToggleModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule
@@ -47,6 +49,7 @@ import { FormsModule,ReactiveFormsModule } from "@angular/forms";
     NgxMatDatetimePickerModule,
     MatAutocompleteModule,
     MatCheckboxModule,
+    MatSlideToggleModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule

@@ -12,7 +12,8 @@ export enum ColumnType {
   DROPDOWN = "dropDown",
   AUTOCOMPLETE = "autoComplete",
   NUMBER = "number",
-  CHECKBOX = "checkbox"
+  CHECKBOX = "checkbox",
+  SLIDE = "slide"
 }
 
 /**
@@ -52,25 +53,24 @@ export interface Action {
   toolTip: string;
 }
 
-export interface Column {
+export interface Column extends CellOption {
   name: string;
   title: string;
   type?: string;
   width?: number;
   isEditable?: boolean;
   separator?: boolean;
-  cellOption?: CellOption;
-  isRequired?: boolean;
-  validation?: ValidatorFn[];
   // isSortable?: boolean;
   // isSticky?: boolean;
 }
 
 export interface CellOption {
+  isRequired?: boolean;
+  validation?: ValidatorFn[];
   date?: DateOption;
   dateTime?: DateOption;
   dropDown?: DropDown[];
-  checkbox?: CheckBoxOption;
+  enableBit?: boolean;
 }
 
 export interface DateOption {
@@ -78,10 +78,6 @@ export interface DateOption {
   max?: Date;
   showSeconds?: boolean;
   enableMeridian?: boolean;
-}
-
-export interface CheckBoxOption{
-  bit?:boolean;
 }
 
 // Data Model

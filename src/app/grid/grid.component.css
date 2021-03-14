@@ -46,3 +46,7 @@ td.mat-cell {
 .grid-container ::ng-deep .not-active .mat-checkbox-frame{
   border-color: red;
 }
+
+.grid-container ::ng-deep .not-active .mat-slide-toggle-thumb{
+  background-color: red;
+}

@@ -24,7 +24,7 @@
 
           <!--date Control-->
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.DATE" class="cell">
-            <input matInput [matDatepicker]="picker" formControlName="{{column.name}}" [min]="column?.cellOption?.date?.min" [max]="column?.cellOption?.date?.max" readonly>
+            <input matInput [matDatepicker]="picker" formControlName="{{column.name}}" [min]="column?.date?.min" [max]="column?.date?.max" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -32,10 +32,10 @@
           <!--date time control -->
           <mat-form-field appearance="outline" *ngSwitchCase="columnType.DATETIME" class="date-time-cell">
             <input matInput [ngxMatDatetimePicker]="picker1" formControlName="{{column.name}}"
-              [min]="column?.cellOption?.dateTime?.min" [max]="column?.cellOption?.dateTime?.max" readonly>
+              [min]="column?.dateTime?.min" [max]="column?.dateTime?.max" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <ngx-mat-datetime-picker #picker1 [showSeconds]="column?.cellOption?.dateTime?.showSeconds"
-              [enableMeridian]="column?.cellOption?.dateTime?.enableMeridian">
+            <ngx-mat-datetime-picker #picker1 [showSeconds]="column?.dateTime?.showSeconds"
+              [enableMeridian]="column?.dateTime?.enableMeridian">
             </ngx-mat-datetime-picker>
           </mat-form-field>
 
@@ -57,7 +57,7 @@
               <mat-select-trigger>
                 {{editableColFormGrp.controls[column.name].value}}
               </mat-select-trigger>
-              <mat-option *ngFor="let option of column!.cellOption!.dropDown" [matTooltip]="option?.description"
+              <mat-option *ngFor="let option of column!.dropDown" [matTooltip]="option?.description"
                 [value]="option.id" class="normal-line-height">
                 <h2 class="no-margin">{{option.id}}</h2>
                 <p class="no-margin" [style.font-weight]="500">{{option?.description}}</p>
@@ -69,6 +69,10 @@
           <mat-checkbox formControlName="{{column.name}}" color="primary" *ngSwitchCase="columnType.CHECKBOX"
             [ngClass]="{'not-active':editableColFormGrp.hasError('required',column.name)}">
           </mat-checkbox>
+
+          <!--slide control-->
+          <mat-slide-toggle formControlName="{{column.name}}" color="primary" *ngSwitchCase="columnType.SLIDE" [ngClass]="{'not-active':editableColFormGrp.hasError('required',column.name)}">
+          </mat-slide-toggle>
 
           <!--default control-->
           <mat-form-field appearance="outline" *ngSwitchDefault class="cell">
