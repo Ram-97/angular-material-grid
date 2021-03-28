@@ -35,6 +35,7 @@ export interface TableConfig {
  * For defining the custom actions, use the `Options` member.
  */
 export interface Inline {
+  isAdd?: boolean;
   isEdit: boolean;
   isDelete: boolean;
   options?: {
@@ -71,7 +72,7 @@ export interface CellOption {
   dateTime?: DateOption;
   dropDown?: DropDown[];
   enableBit?: boolean;
-  enableResize?:boolean;
+  enableResize?: boolean;
 }
 
 export interface DateOption {

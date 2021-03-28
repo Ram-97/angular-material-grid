@@ -70,6 +70,10 @@ export class GridComponent {
   hasCancel: boolean = true;
   @ViewChild(MatTable) table: MatTable<any>;
 
+  //New Row Incell
+  private isAdd: boolean = false;
+  private hasNewFormGroup: boolean = false;
+
   //Incell Autocomplete
   autoCompleteFilterOptions: any = {};
   private subscription: Subscription = new Subscription;
@@ -119,14 +123,19 @@ export class GridComponent {
           ? data.inline.options!.inbetween
           : [];
       }
+
+      if(data.inline.hasOwnProperty("isAdd")){
+        this.isAdd = data.inline!.isAdd;
+      }
     }
   }
 
   private getEditableColFromMetaData(){
     this.editableColFormGrp = new FormGroup({});
+    this.hasNewFormGroup = true; 
     this.editableColumn = this.columnMetaData.reduce((acc: Column[],col: Column)=>{
+      this.editableColFormGrp.addControl(col.name, new FormControl(null,this.getCellValidation(col)));
       if(col?.isEditable){
-        this.editableColFormGrp.addControl(col.name, new FormControl(null,this.getCellValidation(col)));
         acc.push(col);
       }
       return acc;
@@ -173,6 +182,10 @@ export class GridComponent {
   }
 
   private initSelectedRowValToFormGrp(){
+    if(this.hasNewFormGroup){
+      this.hasNewFormGroup = false;
+    } 
+
     this.editableColumn.forEach((col: Column)=>{
       let value : any;
       switch(col.type){
@@ -196,6 +209,7 @@ export class GridComponent {
       this.editableColFormGrp.markAllAsTouched();
     }
   }
+
 
   private initAutoCompleteValue(col: Column){
     this.autoCompleteFilterOptions[col.name] = new Array<DropDown>();
@@ -271,5 +285,46 @@ export class GridComponent {
 
   autoCompleteDisplayFn(event: any){
     return (!event) ? "" : event;
+  }
+
+  addInlineRow(){
+    //pre check
+    if(!this.isAdd){
+      return;
+    }
+
+    if(!this.hasNewFormGroup && !this.editableColFormGrp.valid){
+      this.editableColFormGrp.markAllAsTouched();
+      return;
+    }
+
+    //closing the opened row
+    this.subscription.unsubscribe();
+    this.selectedRowIndex = -1;
+    
+    this.columnMetaData.forEach((col: Column) => {
+      this.editableColFormGrp.get(col.name).reset(null,{emitEvent:false});
+      switch(col.type){
+        case this.columnType.SLIDE:
+        case this.columnType.CHECKBOX:
+          if(col?.enableBit){
+            this.subscription=this.editableColFormGrp.get(col.name).valueChanges.subscribe((data: any)=> {
+              let val= data ? 1 : 0;
+              this.editableColFormGrp.get(col.name).setValue(val,{emitEvent:false});
+            });
+          }
+          break;
+        case this.columnType.AUTOCOMPLETE:
+          this.initAutoCompleteValue(col);
+          break;
+      }
+    });
+    
+    //adding new row
+    this.selectedRow = this.editableColFormGrp.getRawValue();
+    this.selectedRowIndex = this.dataSource.data.length;
+    this.dataSource.data.push(JSON.parse(JSON.stringify(this.selectedRow)));
+    this.table.renderRows();
+    this.hasNewFormGroup =  false;
   }
 }

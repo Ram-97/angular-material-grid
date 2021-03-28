@@ -277,6 +277,7 @@ export const InlineConfig: TableConfig = {
   inline: {
     isDelete: true,
     isEdit: true,
+    isAdd: true,
     options: {
       before: [
         {

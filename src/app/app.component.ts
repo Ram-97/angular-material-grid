@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
 
   autoCompleteFilterOption = autoCompleteData;
   updateAutoComplete: AutoCompleteText;
+
+  showAddRow: boolean = false;
   constructor() {}
 
   ngOnInit() {
@@ -39,8 +41,10 @@ export class AppComponent implements OnInit {
   onSelectionChange(event: MatSelectChange) {
     if (event.value.description === "InLine") {
       this.tableConfig = event.value.config;
+      this.showAddRow = true;
     } else {
       this.tableConfig = {};
+      this.showAddRow = false;
     }
 
     this.column = event.value.column;
