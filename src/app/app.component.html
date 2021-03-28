@@ -7,7 +7,7 @@
   </mat-select>
 </mat-form-field>
 
-<button mat-raised-button color="primary" (click)="gridRef.addInlineRow()" >Add New Row</button>
+<button mat-raised-button color="primary" (click)="gridRef.addInlineRow()" *ngIf="showAddRow">Add New Row</button>
 
 <grid 
   [dataSource]="dataSource" 
