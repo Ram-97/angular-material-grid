@@ -1,21 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
+import { AutoCompleteText, Column, DirtyData, TableConfig } from "projects/grid/src/lib/grid.model";
 import { autoCompleteData, dataList } from "./data";
-import {
-  AutoCompleteText,
-  Column,
-  DirtyData,
-  TableConfig
-} from "./grid/grid.model";
 
 @Component({
-  selector: "my-app",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent implements OnInit {
-  name = "Angular";
+  title = "Angular";
 
   gridDataList: any = dataList;
   selectedData: any;
