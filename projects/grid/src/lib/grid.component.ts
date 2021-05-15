@@ -20,7 +20,7 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "grid",
   templateUrl: "./grid.component.html",
-  styleUrls: ["./grid.component.css"]
+  styleUrls: ["./grid.component.scss"]
 })
 export class GridComponent {
   @Input() dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
@@ -70,6 +70,10 @@ export class GridComponent {
   hasCancel: boolean = true;
   @ViewChild(MatTable) table: MatTable<any>;
 
+  //New Row Incell
+  private isAdd: boolean = false;
+  private hasNewFormGroup: boolean = false;
+
   //Incell Autocomplete
   autoCompleteFilterOptions: any = {};
   private subscription: Subscription = new Subscription;
@@ -103,30 +107,35 @@ export class GridComponent {
     }
 
     if (data.hasOwnProperty("inline")) {
-      this.isEdit = data.inline.isEdit;
-      this.isDelete = data.inline.isDelete;
+      this.isEdit = data.inline!.isEdit;
+      this.isDelete = data.inline!.isDelete;
       this.displayedColumns.push("Action");
       this.getEditableColFromMetaData();
       //For showing extra action button
-      if (data.inline.hasOwnProperty("options")) {
-        this.beforeAction = data.inline.options!.before
-          ? data.inline.options!.before
+      if (data.inline!.hasOwnProperty("options")) {
+        this.beforeAction = data.inline!.options!.before
+          ? data.inline!.options!.before
           : [];
-        this.afterAction = data.inline.options!.after
-          ? data.inline.options!.after
+        this.afterAction = data.inline!.options!.after
+          ? data.inline!.options!.after
           : [];
-        this.inbetweenAction = data.inline.options!.inbetween
-          ? data.inline.options!.inbetween
+        this.inbetweenAction = data.inline!.options!.inbetween
+          ? data.inline!.options!.inbetween
           : [];
+      }
+
+      if(data.inline!.hasOwnProperty("isAdd")){
+        this.isAdd = data.inline!.isAdd!;
       }
     }
   }
 
   private getEditableColFromMetaData(){
     this.editableColFormGrp = new FormGroup({});
+    this.hasNewFormGroup = true; 
     this.editableColumn = this.columnMetaData.reduce((acc: Column[],col: Column)=>{
+      this.editableColFormGrp.addControl(col.name, new FormControl(null,this.getCellValidation(col)));
       if(col?.isEditable){
-        this.editableColFormGrp.addControl(col.name, new FormControl(null,this.getCellValidation(col)));
         acc.push(col);
       }
       return acc;
@@ -173,6 +182,10 @@ export class GridComponent {
   }
 
   private initSelectedRowValToFormGrp(){
+    if(this.hasNewFormGroup){
+      this.hasNewFormGroup = false;
+    } 
+
     this.editableColumn.forEach((col: Column)=>{
       let value : any;
       switch(col.type){
@@ -185,21 +198,24 @@ export class GridComponent {
           value = this.initCheckBoxOrSlideValue(col);
           break;
         case this.columnType.AUTOCOMPLETE:
-          this.initAutoCompleteValue(col);
+          this.initAutoCompleteValue(col);  
+          value =this.selectedRow[col.name];
+          break;
         default:
           value =this.selectedRow[col.name];
           break;
       }
-      this.editableColFormGrp.get(col.name).setValue(value,{emitEvent:false});
+      this.editableColFormGrp.get(col.name)!.setValue(value,{emitEvent:false});
     });
     if(Object.keys(this.editableColFormGrp.controls).length){
       this.editableColFormGrp.markAllAsTouched();
     }
   }
 
+
   private initAutoCompleteValue(col: Column){
     this.autoCompleteFilterOptions[col.name] = new Array<DropDown>();
-    this.subscription=this.editableColFormGrp.get(col.name).valueChanges.pipe(debounceTime(1000),filter(x => !!x.trim()))   .subscribe((text: string)=> {
+    this.subscription=this.editableColFormGrp.get(col.name)!.valueChanges.pipe(debounceTime(1000),filter(x => !!x.trim()))   .subscribe((text: string)=> {
       let data: AutoCompleteText = {
         column: col.name,
         text: text
@@ -211,9 +227,9 @@ export class GridComponent {
   private initCheckBoxOrSlideValue(col: Column){
     let val: any = this.selectedRow[col.name];
     if(col?.enableBit){
-      this.subscription=this.editableColFormGrp.get(col.name).valueChanges.subscribe((data: any)=> {
+      this.subscription=this.editableColFormGrp.get(col.name)!.valueChanges.subscribe((data: any)=> {
         val= data ? 1 : 0;
-        this.editableColFormGrp.get(col.name).setValue(val,{emitEvent:false});
+        this.editableColFormGrp.get(col.name)!.setValue(val,{emitEvent:false});
       });
     }
     return val;
@@ -239,10 +255,10 @@ export class GridComponent {
   private getDirtyData() {
     let result: DirtyData = {} as DirtyData;
     let dirtyFields = this.editableColumn.reduce((acc: any, col: Column) => {
-      if(this.editableColFormGrp.get(col.name).dirty){
-        this.selectedRow[col.name] = this.editableColFormGrp.get(col.name).value;
+      if(this.editableColFormGrp.get(col.name)!.dirty){
+        this.selectedRow[col.name] = this.editableColFormGrp.get(col.name)!.value;
         acc[col.name] = this.selectedRow[col.name];
-        this.editableColFormGrp.get(col.name).reset(this.selectedRow[col.name],{emitEvent:false});
+        this.editableColFormGrp.get(col.name)!.reset(this.selectedRow[col.name],{emitEvent:false});
       }
       return acc;
     }, {});
@@ -271,5 +287,46 @@ export class GridComponent {
 
   autoCompleteDisplayFn(event: any){
     return (!event) ? "" : event;
+  }
+
+  addInlineRow(){
+    //pre check
+    if(!this.isAdd){
+      return;
+    }
+
+    if(!this.hasNewFormGroup && !this.editableColFormGrp.valid){
+      this.editableColFormGrp.markAllAsTouched();
+      return;
+    }
+
+    //closing the opened row
+    this.subscription.unsubscribe();
+    this.selectedRowIndex = -1;
+    
+    this.columnMetaData.forEach((col: Column) => {
+      this.editableColFormGrp.get(col.name)!.reset(null,{emitEvent:false});
+      switch(col.type){
+        case this.columnType.SLIDE:
+        case this.columnType.CHECKBOX:
+          if(col?.enableBit){
+            this.subscription=this.editableColFormGrp.get(col.name)!.valueChanges.subscribe((data: any)=> {
+              let val= data ? 1 : 0;
+              this.editableColFormGrp.get(col.name)!.setValue(val,{emitEvent:false});
+            });
+          }
+          break;
+        case this.columnType.AUTOCOMPLETE:
+          this.initAutoCompleteValue(col);
+          break;
+      }
+    });
+    
+    //adding new row
+    this.selectedRow = this.editableColFormGrp.getRawValue();
+    this.selectedRowIndex = this.dataSource.data.length;
+    this.dataSource.data.push(JSON.parse(JSON.stringify(this.selectedRow)));
+    this.table.renderRows();
+    this.hasNewFormGroup =  false;
   }
 }

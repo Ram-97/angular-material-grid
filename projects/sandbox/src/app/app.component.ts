@@ -1,21 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { MatSelectChange } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
+import { AutoCompleteText, Column, DirtyData, TableConfig } from "projects/grid/src/lib/grid.model";
 import { autoCompleteData, dataList } from "./data";
-import {
-  AutoCompleteText,
-  Column,
-  DirtyData,
-  TableConfig
-} from "./grid/grid.model";
 
 @Component({
-  selector: "my-app",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent implements OnInit {
-  name = "Angular";
+  title = "Angular";
 
   gridDataList: any = dataList;
   selectedData: any;
@@ -28,6 +24,8 @@ export class AppComponent implements OnInit {
 
   autoCompleteFilterOption = autoCompleteData;
   updateAutoComplete: AutoCompleteText;
+
+  showAddRow: boolean = false;
   constructor() {}
 
   ngOnInit() {
@@ -39,8 +37,10 @@ export class AppComponent implements OnInit {
   onSelectionChange(event: MatSelectChange) {
     if (event.value.description === "InLine") {
       this.tableConfig = event.value.config;
+      this.showAddRow = true;
     } else {
       this.tableConfig = {};
+      this.showAddRow = false;
     }
 
     this.column = event.value.column;
