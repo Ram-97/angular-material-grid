@@ -62,7 +62,6 @@
             "main": "projects/sandbox/src/main.ts",
             "polyfills": "projects/sandbox/src/polyfills.ts",
             "tsConfig": "projects/sandbox/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/sandbox/src/favicon.ico",
               "projects/sandbox/src/assets"
@@ -70,7 +69,13 @@
             "styles": [
               "projects/sandbox/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -164,5 +169,5 @@
       }
     }
   },
-  "defaultProject": "grid"
+  "defaultProject": "sandbox"
 }
