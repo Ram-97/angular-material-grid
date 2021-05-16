@@ -1,55 +1,54 @@
-.grid-container{
+.grid-container {
   .icon-medium {
     font-size: medium;
   }
-  
-  .mat-header-cell,.mat-cell {
+
+  .mat-header-cell,
+  .mat-cell {
     text-align: center;
   }
-  
+
   .separator {
     border-right: 1px solid rgba(0, 0, 0, 0.12);
     position: absolute;
     right: 0;
   }
-  
+
   .disable {
     cursor: no-drop;
   }
-  
+
   .confirm {
     color: green !important;
   }
-  
+
   .cell {
     width: 150px;
     height: 60px;
   }
-  
+
   .date-time-cell {
     width: 210px;
     height: 60px;
   }
-    
+
   ::ng-deep .not-active .mat-checkbox-frame {
     border-color: red;
   }
-  
+
   ::ng-deep .not-active .mat-slide-toggle-thumb {
     background-color: red;
   }
-  
+
   .no-resize {
     resize: none;
   }
-  
+
   .text-area-cell {
     width: 250px;
     /* height: 75px; */
   }
-
-
-} 
+}
 
 .no-margin {
   margin: 0;

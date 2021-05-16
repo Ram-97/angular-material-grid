@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "projects/grid",
       "sourceRoot": "projects/grid/src",
-      "prefix": "lib",
+      "prefix": "grid",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
